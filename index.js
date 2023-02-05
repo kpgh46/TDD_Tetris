@@ -1,24 +1,8 @@
-let testFunc = () => {
-	let test = document.getElementById("test");
-	let newDiv = document.createElement("div");
-	newDiv.textContent = "sup";
-	test.appendChild(newDiv);
+let createTetrisBlock = (first, second, third, fourth) => {
+	const tetrisBlock = [first, second, third, fourth];
+	return tetrisBlock;
 };
+// let test = createTetrisBlock([0, 1], [0, 2], [0, 3], [0, 4]);
+// console.log(test[0][1]);
 
-// testFunc();
-const options = {
-	method: "GET",
-	headers: {
-		"X-RapidAPI-Key": "762c75f4ecmshb09408299e534b3p1f6bebjsnbb1df82a374c",
-		"X-RapidAPI-Host":
-			"spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-	},
-};
-
-fetch(
-	"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/1003464/nutritionWidget.json",
-	options
-)
-	.then((response) => response.json())
-	.then((response) => console.log(response))
-	.catch((err) => console.error(err));
+module.exports = createTetrisBlock;
