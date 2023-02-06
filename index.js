@@ -27,7 +27,7 @@ const createTetrisPiece = (positionsArray) => {
 		currentBlocks();
 	};
 
-	return { currentBlocks, rotate, getBlocks };
+	return { rotate, getBlocks };
 };
 
 const linePositions = [
