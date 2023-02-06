@@ -27,7 +27,23 @@ const createTetrisPiece = (positionsArray) => {
 		currentBlocks();
 	};
 
-	return { rotate, getBlocks };
+	let moveLeft = () => {
+		currentPositionArray.forEach((num) => {
+			if (num[1] > 0) {
+				num[1] = num[1] - 1;
+			}
+		});
+	};
+
+	let moveRight = () => {
+		currentPositionArray.forEach((num) => {
+			if (num[1] < 9) {
+				num[1] = num[1] + 1;
+			}
+		});
+	};
+
+	return { rotate, getBlocks, moveLeft, moveRight };
 };
 
 const linePositions = [
@@ -44,5 +60,10 @@ const linePositions = [
 		[1, 4],
 	],
 ];
+
+let test = createTetrisPiece(linePositions);
+// test.moveLeft();
+test.moveRight();
+// console.log(test.getBlocks());
 
 export { createTetrisPiece };
