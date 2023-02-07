@@ -45,7 +45,9 @@ const createTetrisPiece = (positionsArray) => {
 
 	let moveDown = () => {
 		currentPositionArray.forEach((num) => {
-			num[0] = num[0] + 1;
+			if (num[0] < 20) {
+				num[0] = num[0] + 1;
+			}
 		});
 	};
 
@@ -69,7 +71,8 @@ const linePositions = [
 
 let test = createTetrisPiece(linePositions);
 // test.moveLeft();
-test.moveRight();
+// test.moveRight();
+
 // console.log(test.getBlocks());
 
 export { createTetrisPiece };

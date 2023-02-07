@@ -55,13 +55,13 @@ describe("create tetris blocks", () => {
 
 	test("tetris peice does not exceed board game limits on left", () => {
 		//excessive amount of Left moves
-		Array.from(Array(55)).forEach((num) => tetrisBlock.moveLeft());
+		Array.from(Array(100)).forEach((num) => tetrisBlock.moveLeft());
 
 		expect(tetrisBlock.getBlocks()[0][1]).toEqual(0);
 	});
 	test("tetris peice does not exceed board game limits on right", () => {
 		//exessive amount of right moves
-		Array.from(Array(112)).forEach((num) => tetrisBlock.moveRight());
+		Array.from(Array(100)).forEach((num) => tetrisBlock.moveRight());
 
 		expect(tetrisBlock.getBlocks()[0][1]).toEqual(9);
 	});
@@ -70,5 +70,9 @@ describe("create tetris blocks", () => {
 		tetrisBlock.moveDown();
 		expect(tetrisBlock.getBlocks()[2][0]).toEqual(2);
 	});
-	// test("tetric peice stops at bottom of board", () => {});
+	test("tetris peice does not exceed game boards on bottom", () => {
+		Array.from(Array(100)).forEach((num) => tetrisBlock.moveDown());
+
+		expect(tetrisBlock.getBlocks()[2][0]).toEqual(20);
+	});
 });
