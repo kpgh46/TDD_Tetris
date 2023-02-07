@@ -1,3 +1,5 @@
+import { getLastNumber } from "./utils";
+
 // factory function which creates tetris blocks
 const createTetrisPiece = (positionsArray) => {
 	// determines first or second position of Tetris Piece
@@ -36,15 +38,24 @@ const createTetrisPiece = (positionsArray) => {
 	};
 
 	let moveRight = () => {
-		currentPositionArray.forEach((num) => {
-			if (num[1] < 9) {
-				num[1] = num[1] + 1;
-			}
+		let checkAll = currentPositionArray.every((num) => {
+			let secondNum = num[1];
+			return secondNum < 9;
 		});
+
+		if (checkAll) {
+			currentPositionArray.forEach((num) => {
+				let secondNum = num[1];
+				let lastNum = getLastNumber(secondNum);
+				num[1] = num[1] + 1;
+			});
+		}
 	};
 
 	let moveDown = () => {
 		currentPositionArray.forEach((num) => {
+			if (num < 100) {
+			}
 			if (num[0] < 20) {
 				num[0] = num[0] + 1;
 			}
@@ -70,6 +81,10 @@ const linePositions = [
 ];
 
 let test = createTetrisPiece(linePositions);
+let cells = document.querySelectorAll(".cell");
+let newCells = Array.from(cells);
+console.log(newCells);
+
 // test.moveLeft();
 // test.moveRight();
 
