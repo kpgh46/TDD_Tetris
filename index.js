@@ -43,7 +43,13 @@ const createTetrisPiece = (positionsArray) => {
 		});
 	};
 
-	return { rotate, getBlocks, moveLeft, moveRight };
+	let moveDown = () => {
+		currentPositionArray.forEach((num) => {
+			num[0] = num[0] + 1;
+		});
+	};
+
+	return { rotate, getBlocks, moveLeft, moveRight, moveDown };
 };
 
 const linePositions = [

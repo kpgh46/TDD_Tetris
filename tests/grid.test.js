@@ -65,6 +65,10 @@ describe("create tetris blocks", () => {
 
 		expect(tetrisBlock.getBlocks()[0][1]).toEqual(9);
 	});
-	// test("tetris peice moves downward", () => {});
+	test("tetris peice moves downward", () => {
+		tetrisBlock.moveDown();
+		tetrisBlock.moveDown();
+		expect(tetrisBlock.getBlocks()[2][0]).toEqual(2);
+	});
 	// test("tetric peice stops at bottom of board", () => {});
 });
