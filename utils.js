@@ -5,4 +5,11 @@ let getLastNumber = (num) => {
 	return parseInt(getLast);
 };
 
-export { getLastNumber };
+let joinArrayOfNumbers = (arr) => {
+	let stringifyArray = arr.map((num) => {
+		return num.toString();
+	});
+	return parseInt(stringifyArray.join(""));
+};
+
+export { getLastNumber, joinArrayOfNumbers };

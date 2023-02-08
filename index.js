@@ -1,4 +1,11 @@
-// import { getLastNumber } from "./utils";
+// import { joinArrayOfNumbers } from "./utils";
+
+let joinArrayOfNumbers = (arr) => {
+	let stringifyArray = arr.map((num) => {
+		return num.toString();
+	});
+	return parseInt(stringifyArray.join(""));
+};
 
 // factory function which creates tetris blocks
 const createTetrisPiece = (positionsArray) => {
@@ -60,8 +67,6 @@ const createTetrisPiece = (positionsArray) => {
 
 	let moveDown = () => {
 		currentPositionArray.forEach((num) => {
-			if (num < 100) {
-			}
 			if (num[0] < 20) {
 				num[0] = num[0] + 1;
 			}
@@ -69,6 +74,38 @@ const createTetrisPiece = (positionsArray) => {
 	};
 
 	return { rotate, getBlocks, moveLeft, moveRight, moveDown };
+};
+
+let arrayOfCells = Array.from(Array(200));
+arrayOfCells.fill(1);
+
+let board = (arrayOfCells, arrayOfCoords) => {
+	let getCells = () => {
+		return arrayOfCells;
+	};
+
+	let getCoords = () => {
+		let arrayOfJoinedCoords = arrayOfCoords.map((coords) => {
+			return joinArrayOfNumbers(coords);
+		});
+		return arrayOfJoinedCoords;
+	};
+
+	let placeCoordsOnBoard = () => {
+		// let cells = getCells();
+		let coords = getCoords();
+
+		arrayOfCells.filter((num, index) => {
+			if (coords.includes(index)) {
+				console.log(index, num);
+				arrayOfCells[index] = "x";
+			}
+		});
+
+		return arrayOfCells;
+	};
+
+	return { getCells, getCoords, placeCoordsOnBoard };
 };
 
 const linePositions = [
@@ -86,11 +123,15 @@ const linePositions = [
 	],
 ];
 
-let test = createTetrisPiece(linePositions);
-console.log(test.getBlocks());
-test.moveLeft();
-console.log(test.getBlocks());
+let b = board(arrayOfCells, linePositions[0]);
+// console.log(b.getCoords());
+
+// console.log(b.getCoords());
+b.placeCoordsOnBoard();
+console.log(b.getCells());
+console.log(b.getCoords().length);
+// let test = createTetrisPiece(linePositions);
 
 // console.log(test.getBlocks());
 
-export { createTetrisPiece };
+export { createTetrisPiece, board };

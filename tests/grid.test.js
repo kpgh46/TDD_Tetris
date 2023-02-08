@@ -1,4 +1,4 @@
-import { createTetrisPiece } from "../index";
+import { createTetrisPiece, board } from "../index";
 
 describe("create tetris blocks", () => {
 	let tetrisBlock;
@@ -79,4 +79,40 @@ describe("create tetris blocks", () => {
 
 		expect(tetrisBlock.getBlocks()[2][0]).toEqual(20);
 	});
+});
+
+describe("logic for gameboard", () => {
+	let arrayOfCells;
+	let arrayOfCoords;
+	beforeEach(() => {
+		arrayOfCells = Array.from(Array(200));
+		arrayOfCoords = [
+			[0, 2],
+			[0, 3],
+			[0, 4],
+			[0, 5],
+		];
+	});
+	test("board intakes array parameter", () => {
+		let gameBoard = board([1, 2, 3, 4]);
+		expect(gameBoard.getCells().length).toBeGreaterThan(0);
+	});
+
+	test("array parameter equals 200", () => {
+		let gameBoard = board(arrayOfCells);
+		expect(gameBoard.getCells().length).toEqual(200);
+	});
+
+	test("board intakes a nested array with a length of 4 representing tetris block coordinates", () => {
+		let gameBoard = board(arrayOfCells, arrayOfCoords);
+		expect(gameBoard.getCoords().length).toEqual(4);
+	});
+
+	test("board coordinates are joined instead of paired arrays", () => {});
+
+	// test("place coords onto board by updating cooresponding cells", () => {
+	// 	let gameBoard = board(arrayOfCells, arrayOfCoords);
+	// 	gameBoard.placeCoordsOnBoard();
+	// 	expect(gameBoard.getCells()[2]).toBe("x");
+	// });
 });
