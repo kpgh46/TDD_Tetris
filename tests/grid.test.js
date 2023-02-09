@@ -108,11 +108,11 @@ describe("logic for gameboard", () => {
 		expect(gameBoard.getCoords().length).toEqual(4);
 	});
 
-	test("board coordinates are joined instead of paired arrays", () => {});
-
-	// test("place coords onto board by updating cooresponding cells", () => {
-	// 	let gameBoard = board(arrayOfCells, arrayOfCoords);
-	// 	gameBoard.placeCoordsOnBoard();
-	// 	expect(gameBoard.getCells()[2]).toBe("x");
-	// });
+	test("place coords onto board by updating cooresponding cells", () => {
+		let gameBoard = board(arrayOfCells, arrayOfCoords);
+		gameBoard.placeCoordsOnBoard();
+		expect(gameBoard.getCells()[2]).toBe("x");
+	});
 });
+
+describe("testing rendering function", () => {});

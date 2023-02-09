@@ -1,11 +1,4 @@
-// import { joinArrayOfNumbers } from "./utils";
-
-let joinArrayOfNumbers = (arr) => {
-	let stringifyArray = arr.map((num) => {
-		return num.toString();
-	});
-	return parseInt(stringifyArray.join(""));
-};
+import { joinArrayOfNumbers } from "./utils.js";
 
 // factory function which creates tetris blocks
 const createTetrisPiece = (positionsArray) => {
@@ -76,14 +69,14 @@ const createTetrisPiece = (positionsArray) => {
 	return { rotate, getBlocks, moveLeft, moveRight, moveDown };
 };
 
-let arrayOfCells = Array.from(Array(200));
-arrayOfCells.fill(1);
-
+// returins the array of cells and placed coordinates
 let board = (arrayOfCells, arrayOfCoords) => {
+	// return array of game board cells
 	let getCells = () => {
 		return arrayOfCells;
 	};
 
+	// return coordinates in whole number format (arr.length = 4)
 	let getCoords = () => {
 		let arrayOfJoinedCoords = arrayOfCoords.map((coords) => {
 			return joinArrayOfNumbers(coords);
@@ -91,19 +84,22 @@ let board = (arrayOfCells, arrayOfCoords) => {
 		return arrayOfJoinedCoords;
 	};
 
+	// matches coordinates onto the gameboard.
 	let placeCoordsOnBoard = () => {
-		// let cells = getCells();
 		let coords = getCoords();
 
 		arrayOfCells.filter((num, index) => {
 			if (coords.includes(index)) {
-				console.log(index, num);
 				arrayOfCells[index] = "x";
 			}
 		});
 
 		return arrayOfCells;
 	};
+
+	if (arrayOfCoords) {
+		placeCoordsOnBoard();
+	}
 
 	return { getCells, getCoords, placeCoordsOnBoard };
 };
@@ -123,15 +119,27 @@ const linePositions = [
 	],
 ];
 
-let b = board(arrayOfCells, linePositions[0]);
-// console.log(b.getCoords());
+let playGame = () => {
+	//board:
+	let newBoard = Array.from(Array(200)).fill(1);
 
-// console.log(b.getCoords());
-b.placeCoordsOnBoard();
-console.log(b.getCells());
-console.log(b.getCoords().length);
-// let test = createTetrisPiece(linePositions);
+	//peice:
+	let line = createTetrisPiece(linePositions);
 
-// console.log(test.getBlocks());
+	//grid:
+	let grid = document.querySelector("#grid");
+
+	newBoard.forEach((cell) => {
+		let cellDiv = document.createElement("div");
+		cellDiv.classList.add("cell");
+		if (cell === "x") {
+			cellDiv.classList.add("active");
+		}
+		grid.appendChild(cellDiv);
+	});
+};
+
+// let b = board(arrayOfCells, linePositions[0]);
+playGame();
 
 export { createTetrisPiece, board };
