@@ -70,14 +70,16 @@ const createTetrisPiece = (positionsArray) => {
 };
 
 // returins the array of cells and placed coordinates
-let board = (arrayOfCells, arrayOfCoords) => {
+let board = () => {
+	let newBoard = Array.from(Array(200)).fill(1);
 	// return array of game board cells
-	let getCells = () => {
-		return arrayOfCells;
+
+	let getBoard = () => {
+		return newBoard;
 	};
 
 	// return coordinates in whole number format (arr.length = 4)
-	let getCoords = () => {
+	let getCoords = (arrayOfCoords) => {
 		let arrayOfJoinedCoords = arrayOfCoords.map((coords) => {
 			return joinArrayOfNumbers(coords);
 		});
@@ -85,23 +87,19 @@ let board = (arrayOfCells, arrayOfCoords) => {
 	};
 
 	// matches coordinates onto the gameboard.
-	let placeCoordsOnBoard = () => {
-		let coords = getCoords();
+	let placeCoordsOnBoard = (arrayOfCoords) => {
+		let coords = getCoords(arrayOfCoords);
 
-		arrayOfCells.filter((num, index) => {
+		newBoard.filter((num, index) => {
 			if (coords.includes(index)) {
-				arrayOfCells[index] = "x";
+				newBoard[index] = "x";
 			}
 		});
 
-		return arrayOfCells;
+		return newBoard;
 	};
 
-	if (arrayOfCoords) {
-		placeCoordsOnBoard();
-	}
-
-	return { getCells, getCoords, placeCoordsOnBoard };
+	return { getBoard, placeCoordsOnBoard };
 };
 
 const linePositions = [
@@ -119,27 +117,24 @@ const linePositions = [
 	],
 ];
 
-let playGame = () => {
-	//board:
-	let newBoard = Array.from(Array(200)).fill(1);
+// let playGame = () => {
+// 	//peice:
+// 	let line = createTetrisPiece(linePositions);
 
-	//peice:
-	let line = createTetrisPiece(linePositions);
+// 	//grid:
+// 	let grid = document.querySelector("#grid");
 
-	//grid:
-	let grid = document.querySelector("#grid");
-
-	newBoard.forEach((cell) => {
-		let cellDiv = document.createElement("div");
-		cellDiv.classList.add("cell");
-		if (cell === "x") {
-			cellDiv.classList.add("active");
-		}
-		grid.appendChild(cellDiv);
-	});
-};
+// 	newBoard.forEach((cell) => {
+// 		let cellDiv = document.createElement("div");
+// 		cellDiv.classList.add("cell");
+// 		if (cell === "x") {
+// 			cellDiv.classList.add("active");
+// 		}
+// 		grid.appendChild(cellDiv);
+// 	});
+// };
 
 // let b = board(arrayOfCells, linePositions[0]);
-playGame();
+// playGame();
 
 export { createTetrisPiece, board };

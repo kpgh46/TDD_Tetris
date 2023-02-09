@@ -82,37 +82,51 @@ describe("create tetris blocks", () => {
 });
 
 describe("logic for gameboard", () => {
-	let arrayOfCells;
-	let arrayOfCoords;
+	let tetrisBoard;
+
 	beforeEach(() => {
-		arrayOfCells = Array.from(Array(200));
-		arrayOfCoords = [
+		tetrisBoard = board();
+	});
+	test("board intakes array parameter", () => {
+		expect(tetrisBoard.getBoard().length).toBeGreaterThan(0);
+	});
+
+	test("array parameter equals 200", () => {
+		expect(tetrisBoard.getBoard().length).toEqual(200);
+	});
+
+	test("adding new coordinates onto the board", () => {
+		let arrayOfCoords = [
 			[0, 2],
 			[0, 3],
 			[0, 4],
 			[0, 5],
 		];
-	});
-	test("board intakes array parameter", () => {
-		let gameBoard = board([1, 2, 3, 4]);
-		expect(gameBoard.getCells().length).toBeGreaterThan(0);
-	});
-
-	test("array parameter equals 200", () => {
-		let gameBoard = board(arrayOfCells);
-		expect(gameBoard.getCells().length).toEqual(200);
+		tetrisBoard.placeCoordsOnBoard(arrayOfCoords);
+		expect(tetrisBoard.getBoard()[2]).toEqual("x");
+		expect(tetrisBoard.getBoard()[5]).toEqual("x");
 	});
 
-	test("board intakes a nested array with a length of 4 representing tetris block coordinates", () => {
-		let gameBoard = board(arrayOfCells, arrayOfCoords);
-		expect(gameBoard.getCoords().length).toEqual(4);
-	});
-
-	test("place coords onto board by updating cooresponding cells", () => {
-		let gameBoard = board(arrayOfCells, arrayOfCoords);
-		gameBoard.placeCoordsOnBoard();
-		expect(gameBoard.getCells()[2]).toBe("x");
+	test("adding an additional set of coordinates onto the board", () => {
+		let arrayOfCoords1 = [
+			[0, 2],
+			[0, 3],
+			[0, 4],
+			[0, 5],
+		];
+		let arrayOfCoords2 = [
+			[10, 2],
+			[11, 2],
+			[12, 2],
+			[13, 2],
+		];
+		tetrisBoard.placeCoordsOnBoard(arrayOfCoords1);
+		tetrisBoard.placeCoordsOnBoard(arrayOfCoords2);
+		expect(tetrisBoard.getBoard()[2]).toEqual("x");
+		expect(tetrisBoard.getBoard()[102]).toEqual("x");
 	});
 });
+
+describe("test tetrisPeice and board working together", () => {});
 
 describe("testing rendering function", () => {});
