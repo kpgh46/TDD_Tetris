@@ -2,6 +2,8 @@ import { joinArrayOfNumbers } from "./utils.js";
 
 // factory function which creates tetris blocks
 const createTetrisPiece = (positionsArray) => {
+	let movingDown = true;
+
 	// determines first or second position of Tetris Piece
 	let currentPositionIndex = 0;
 
@@ -66,7 +68,17 @@ const createTetrisPiece = (positionsArray) => {
 		});
 	};
 
-	return { rotate, getBlocks, moveLeft, moveRight, moveDown };
+	let stopMovingDown = () => {
+		moveDown = false;
+	};
+
+	// setInterval(() => {
+	// 	if (moveDown) {
+	// 		moveDown();
+	// 	}
+	// }, 3000);
+
+	return { rotate, getBlocks, moveLeft, moveRight, moveDown, stopMovingDown };
 };
 
 // returins the array of cells and placed coordinates
