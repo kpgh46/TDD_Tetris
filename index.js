@@ -69,7 +69,7 @@ const createTetrisPiece = (positionsArray) => {
 	};
 
 	let stopMovingDown = () => {
-		moveDown = false;
+		movingDown = false;
 	};
 
 	// setInterval(() => {
@@ -99,12 +99,14 @@ let board = () => {
 	};
 
 	// matches coordinates onto the gameboard.
-	let placeCoordsOnBoard = (arrayOfCoords) => {
+	let placeCoordsOnBoard = (arrayOfCoords, tetrisPeice) => {
 		let coords = getCoords(arrayOfCoords);
 
 		newBoard.filter((num, index) => {
-			if (coords.includes(index)) {
+			if (coords.includes(index) && newBoard[index] !== "x") {
 				newBoard[index] = "x";
+			} else {
+				return false;
 			}
 		});
 
@@ -129,24 +131,39 @@ const linePositions = [
 	],
 ];
 
-// let playGame = () => {
-// 	//peice:
-// 	let line = createTetrisPiece(linePositions);
+let displayBoard = (b) => {
+	let grid = document.querySelector("#grid");
 
-// 	//grid:
-// 	let grid = document.querySelector("#grid");
+	b.forEach((cell) => {
+		let cellDiv = document.createElement("div");
+		cellDiv.classList.add("cell");
+		if (cell === "x") {
+			cellDiv.classList.add("active");
+		}
+		grid.appendChild(cellDiv);
+	});
+};
 
-// 	newBoard.forEach((cell) => {
-// 		let cellDiv = document.createElement("div");
-// 		cellDiv.classList.add("cell");
-// 		if (cell === "x") {
-// 			cellDiv.classList.add("active");
-// 		}
-// 		grid.appendChild(cellDiv);
-// 	});
-// };
+let playGame = () => {
+	// create tetris peice
+	let lineTetrisPeice = createTetrisPiece(linePositions);
+	let currentTetrisPeicePosition = lineTetrisPeice.getBlocks();
+
+	// create board
+	let tetrisBoard = board();
+
+	let initialBoard = tetrisBoard.getBoard();
+
+	initialBoard = tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
+
+	displayBoard(initialBoard);
+};
+
+// event listener for down arrow
+
+// if state - if variable changes, paint the board
 
 // let b = board(arrayOfCells, linePositions[0]);
-// playGame();
+playGame();
 
 export { createTetrisPiece, board };

@@ -166,4 +166,33 @@ describe("test tetrisPeice and board working together", () => {
 	});
 });
 
+describe("playGame main function", () => {
+	let tetrisBoard;
+	let lineTetrisPeice;
+
+	beforeEach(() => {
+		tetrisBoard = board();
+		const linePositions = [
+			[
+				[0, 2],
+				[0, 3],
+				[0, 4],
+				[0, 5],
+			],
+			[
+				[0, 2],
+				[1, 3],
+				[1, 3],
+				[1, 4],
+			],
+		];
+		lineTetrisPeice = createTetrisPiece(linePositions);
+	});
+
+	test("a blank board with 200 cells and a tetris peice is created", () => {
+		let game = playGame();
+		let board = playGame;
+	});
+});
+
 describe("testing rendering function", () => {});
