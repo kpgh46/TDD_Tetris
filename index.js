@@ -103,7 +103,7 @@ let board = () => {
 		let coords = getCoords(arrayOfCoords);
 
 		newBoard.filter((num, index) => {
-			if (coords.includes(index) && newBoard[index] !== "x") {
+			if (coords.includes(index)) {
 				newBoard[index] = "x";
 			} else {
 				return false;
@@ -124,15 +124,26 @@ const linePositions = [
 		[0, 5],
 	],
 	[
-		[0, 2],
-		[1, 3],
-		[1, 3],
-		[1, 4],
+		[1, 2],
+		[2, 2],
+		[3, 2],
+		[4, 2],
 	],
 ];
+let grid = document.querySelector("#grid");
+
+let deleteChild = (parent) => {
+	let p = document.querySelector(`${parent}`);
+	let c = p.lastElementChild;
+
+	while (c) {
+		p.removeChild(c);
+		c = p.lastElementChild;
+	}
+};
 
 let displayBoard = (b) => {
-	let grid = document.querySelector("#grid");
+	deleteChild("#grid");
 
 	b.forEach((cell) => {
 		let cellDiv = document.createElement("div");
@@ -152,11 +163,28 @@ let playGame = () => {
 	// create board
 	let tetrisBoard = board();
 
-	let initialBoard = tetrisBoard.getBoard();
+	let currentBoard = tetrisBoard.getBoard();
 
-	initialBoard = tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
+	currentBoard = tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
 
-	displayBoard(initialBoard);
+	displayBoard(currentBoard);
+
+	document.addEventListener("keydown", (e) => {
+		let key = e.key;
+		if (key === "ArrowRight") {
+			// console.log("right arrow");
+			lineTetrisPeice.rotate();
+			console.log(lineTetrisPeice.getBlocks());
+			displayBoard(
+				tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks())
+			);
+			// currentBoard = tetrisBoard.placeCoordsOnBoard(
+			// 	lineTetrisPeice.getBlocks()
+			// );
+			// displayBoard(currentBoard);
+			// console.log("hi");
+		}
+	});
 };
 
 // event listener for down arrow
