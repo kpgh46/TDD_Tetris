@@ -106,7 +106,7 @@ let board = () => {
 			if (coords.includes(index)) {
 				newBoard[index] = "x";
 			} else {
-				return false;
+				newBoard[index] = 1;
 			}
 		});
 
