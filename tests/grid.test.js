@@ -127,6 +127,43 @@ describe("logic for gameboard", () => {
 	});
 });
 
-describe("test tetrisPeice and board working together", () => {});
+describe("test tetrisPeice and board working together", () => {
+	let tetrisBoard;
+	let lineTetrisPeice;
+
+	beforeEach(() => {
+		tetrisBoard = board();
+		const linePositions = [
+			[
+				[0, 2],
+				[0, 3],
+				[0, 4],
+				[0, 5],
+			],
+			[
+				[0, 2],
+				[1, 3],
+				[1, 3],
+				[1, 4],
+			],
+		];
+		lineTetrisPeice = createTetrisPiece(linePositions);
+	});
+
+	test("creating tetris peice and rendering it onto the board", () => {
+		lineTetrisPeice.rotate();
+		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
+		expect(tetrisBoard.getBoard()[2]).toEqual("x");
+		expect(tetrisBoard.getBoard()[13]).toEqual("x");
+		expect(tetrisBoard.getBoard()[14]).toEqual("x");
+	});
+
+	test("moveDown function renders correctly onto the board", () => {
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
+		expect(tetrisBoard.getBoard()[22]).toEqual("x");
+	});
+});
 
 describe("testing rendering function", () => {});
