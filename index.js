@@ -61,11 +61,16 @@ const createTetrisPiece = (positionsArray) => {
 	};
 
 	let moveDown = () => {
-		currentPositionArray.forEach((num) => {
-			if (num[0] < 20) {
-				num[0] = num[0] + 1;
-			}
+		let checkAll = currentPositionArray.every((num) => {
+			let firstNum = num[0];
+
+			return firstNum < 19;
 		});
+		if (checkAll) {
+			currentPositionArray.forEach((num) => {
+				num[0] = num[0] + 1;
+			});
+		}
 	};
 
 	let stopMovingDown = () => {
@@ -130,20 +135,10 @@ const linePositions = [
 		[4, 2],
 	],
 ];
-let grid = document.querySelector("#grid");
-
-let deleteChild = (parent) => {
-	let p = document.querySelector(`${parent}`);
-	let c = p.lastElementChild;
-
-	while (c) {
-		p.removeChild(c);
-		c = p.lastElementChild;
-	}
-};
 
 let displayBoard = (b) => {
-	deleteChild("#grid");
+	let grid = document.querySelector("#grid");
+	grid.innerHTML = "";
 
 	b.forEach((cell) => {
 		let cellDiv = document.createElement("div");
@@ -172,17 +167,22 @@ let playGame = () => {
 	document.addEventListener("keydown", (e) => {
 		let key = e.key;
 		if (key === "ArrowRight") {
-			// console.log("right arrow");
 			lineTetrisPeice.rotate();
 			console.log(lineTetrisPeice.getBlocks());
 			displayBoard(
 				tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks())
 			);
-			// currentBoard = tetrisBoard.placeCoordsOnBoard(
-			// 	lineTetrisPeice.getBlocks()
-			// );
-			// displayBoard(currentBoard);
-			// console.log("hi");
+		}
+	});
+
+	document.addEventListener("keydown", (e) => {
+		let key = e.key;
+		if (key === "ArrowDown") {
+			lineTetrisPeice.moveDown();
+			console.log(lineTetrisPeice.getBlocks());
+			displayBoard(
+				tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks())
+			);
 		}
 	});
 };
@@ -192,6 +192,6 @@ let playGame = () => {
 // if state - if variable changes, paint the board
 
 // let b = board(arrayOfCells, linePositions[0]);
-playGame();
+// playGame();
 
 export { createTetrisPiece, board };
