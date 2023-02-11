@@ -155,6 +155,9 @@ let displayBoard = (b) => {
 		if (cell === "x") {
 			cellDiv.classList.add("active");
 		}
+		if (cell === "o") {
+			cellDiv.classList.add("set");
+		}
 		grid.appendChild(cellDiv);
 	});
 };
