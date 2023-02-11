@@ -109,9 +109,12 @@ const createTetrisPiece = (positionsArray) => {
 };
 
 // returins the array of cells and placed coordinates
-let board = () => {
-	let newBoard = Array.from(Array(200)).fill(1);
+let newBoardArray = Array.from(Array(200)).fill(1);
+
+let board = (array) => {
+	let newBoard = array;
 	let newPeice = false;
+	let takenCells = [];
 
 	let getBoard = () => {
 		return newBoard;
@@ -142,6 +145,9 @@ let board = () => {
 		newBoard.filter((num, index) => {
 			if (coords.includes(index)) {
 				newBoard[index] = "x";
+				if (newBoard[index] === "o") {
+					newBoard[index] = "o";
+				}
 			} else {
 				newBoard[index] = 1;
 			}
@@ -195,46 +201,44 @@ let displayBoard = (b) => {
 };
 
 let createNewTetrisPeice = () => {
-	return createNewTetrisPeice(linePositions);
+	return createTetrisPiece(linePositions);
 };
 
 let playGame = () => {
 	let game = true;
-
-	// create tetris peice
-	let lineTetrisPeice = createTetrisPiece(linePositions);
-
-	// create board
-	let tetrisBoard = board();
-
+	let tetrisBoard = board(newBoardArray);
 	let currentBoard = tetrisBoard.getBoard();
 
-	currentBoard = tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
+	let currentTetrisPeice = createNewTetrisPeice();
+
+	currentBoard = tetrisBoard.placeCoordsOnBoard(
+		currentTetrisPeice.getBlocks()
+	);
 
 	displayBoard(currentBoard);
 
 	document.addEventListener("keydown", (e) => {
 		let key = e.key;
 		if (key === "ArrowRight") {
-			lineTetrisPeice.rotate();
-			// console.log(lineTetrisPeice.getBlocks());
+			currentTetrisPeice.rotate();
 			displayBoard(
-				tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks())
+				tetrisBoard.placeCoordsOnBoard(currentTetrisPeice.getBlocks())
 			);
-			if (tetrisBoard.checkIfNewPeiceNeeded()) {
-			}
 		}
 	});
 
 	document.addEventListener("keydown", (e) => {
 		let key = e.key;
 		if (key === "ArrowDown") {
-			lineTetrisPeice.moveDown();
-			console.log(lineTetrisPeice.getBlocks());
+			currentTetrisPeice.moveDown();
+			console.log(currentTetrisPeice.getBlocks());
 			displayBoard(
-				tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks())
+				tetrisBoard.placeCoordsOnBoard(currentTetrisPeice.getBlocks())
 			);
 			console.log(tetrisBoard.getBoard());
+			if (tetrisBoard.checkIfNewPeiceNeeded()) {
+				currentTetrisPeice = createNewTetrisPeice();
+			}
 		}
 	});
 };
