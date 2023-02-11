@@ -106,6 +106,7 @@ let board = () => {
 	// matches coordinates onto the gameboard.
 	let placeCoordsOnBoard = (arrayOfCoords, tetrisPeice) => {
 		let coords = getCoords(arrayOfCoords);
+		let checkIfAtBottom = coords.some((num) => num > 189);
 
 		newBoard.filter((num, index) => {
 			if (coords.includes(index)) {
@@ -114,6 +115,14 @@ let board = () => {
 				newBoard[index] = 1;
 			}
 		});
+
+		if (checkIfAtBottom) {
+			newBoard.filter((num, index) => {
+				if (coords.includes(index)) {
+					newBoard[index] = "o";
+				}
+			});
+		}
 
 		return newBoard;
 	};
@@ -183,15 +192,11 @@ let playGame = () => {
 			displayBoard(
 				tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks())
 			);
+			console.log(tetrisBoard.getBoard());
 		}
 	});
 };
 
-// event listener for down arrow
-
-// if state - if variable changes, paint the board
-
-// let b = board(arrayOfCells, linePositions[0]);
-// playGame();
+playGame();
 
 export { createTetrisPiece, board };

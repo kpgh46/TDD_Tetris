@@ -164,6 +164,31 @@ describe("test tetrisPeice and board working together", () => {
 		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
 		expect(tetrisBoard.getBoard()[22]).toEqual("x");
 	});
+
+	test("tetris peices are identified as an 'o' if at bottom of the board", () => {
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+		lineTetrisPeice.moveDown();
+
+		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
+		expect(tetrisBoard.getBoard()[193]).toEqual("o");
+	});
 });
 
 // describe("playGame main function", () => {
