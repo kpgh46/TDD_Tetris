@@ -3,6 +3,7 @@ import { joinArrayOfNumbers } from "./utils.js";
 // factory function which creates tetris blocks
 const createTetrisPiece = (positionsArray) => {
 	let movingDown = true;
+	let active = true;
 
 	// determines first or second position of Tetris Piece
 	let currentPositionIndex = 0;
@@ -77,22 +78,51 @@ const createTetrisPiece = (positionsArray) => {
 		movingDown = false;
 	};
 
+	let checkIfMovingDown = () => {
+		return moveDown;
+	};
+
+	let setToInactive = () => {
+		active = false;
+	};
+
+	let checkIfActive = () => {
+		return active;
+	};
+
 	// setInterval(() => {
 	// 	if (moveDown) {
 	// 		moveDown();
 	// 	}
 	// }, 3000);
 
-	return { rotate, getBlocks, moveLeft, moveRight, moveDown, stopMovingDown };
+	return {
+		rotate,
+		getBlocks,
+		moveLeft,
+		moveRight,
+		moveDown,
+		stopMovingDown,
+		checkIfMovingDown,
+		setToInactive,
+	};
 };
 
 // returins the array of cells and placed coordinates
 let board = () => {
 	let newBoard = Array.from(Array(200)).fill(1);
-	// return array of game board cells
+	let newPeice = false;
 
 	let getBoard = () => {
 		return newBoard;
+	};
+
+	let updateNewPeice = () => {
+		newPeice = true;
+	};
+
+	let checkIfNewPeiceNeeded = () => {
+		return newPeice;
 	};
 
 	// return coordinates in whole number format (arr.length = 4)
@@ -104,8 +134,9 @@ let board = () => {
 	};
 
 	// matches coordinates onto the gameboard.
-	let placeCoordsOnBoard = (arrayOfCoords, tetrisPeice) => {
+	let placeCoordsOnBoard = (arrayOfCoords) => {
 		let coords = getCoords(arrayOfCoords);
+		let coordsPlusTen = coords.map((num) => num + 10);
 		let checkIfAtBottom = coords.some((num) => num > 189);
 
 		newBoard.filter((num, index) => {
@@ -122,12 +153,13 @@ let board = () => {
 					newBoard[index] = "o";
 				}
 			});
+			updateNewPeice();
 		}
 
 		return newBoard;
 	};
 
-	return { getBoard, placeCoordsOnBoard };
+	return { getBoard, placeCoordsOnBoard, checkIfNewPeiceNeeded };
 };
 
 const linePositions = [
@@ -162,10 +194,15 @@ let displayBoard = (b) => {
 	});
 };
 
+let createNewTetrisPeice = () => {
+	return createNewTetrisPeice(linePositions);
+};
+
 let playGame = () => {
+	let game = true;
+
 	// create tetris peice
 	let lineTetrisPeice = createTetrisPiece(linePositions);
-	let currentTetrisPeicePosition = lineTetrisPeice.getBlocks();
 
 	// create board
 	let tetrisBoard = board();
@@ -180,10 +217,12 @@ let playGame = () => {
 		let key = e.key;
 		if (key === "ArrowRight") {
 			lineTetrisPeice.rotate();
-			console.log(lineTetrisPeice.getBlocks());
+			// console.log(lineTetrisPeice.getBlocks());
 			displayBoard(
 				tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks())
 			);
+			if (tetrisBoard.checkIfNewPeiceNeeded()) {
+			}
 		}
 	});
 
