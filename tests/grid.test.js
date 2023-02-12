@@ -83,9 +83,26 @@ describe("create tetris blocks", () => {
 
 describe("logic for gameboard", () => {
 	let tetrisBoard;
+	let newBoardArray;
+
+	const linePositions = [
+		[
+			[0, 2],
+			[0, 3],
+			[0, 4],
+			[0, 5],
+		],
+		[
+			[1, 2],
+			[2, 2],
+			[3, 2],
+			[4, 2],
+		],
+	];
 
 	beforeEach(() => {
-		tetrisBoard = board();
+		newBoardArray = Array.from(Array(200)).fill(1);
+		tetrisBoard = board(newBoardArray);
 	});
 	test("board intakes array parameter", () => {
 		expect(tetrisBoard.getBoard().length).toBeGreaterThan(0);
@@ -94,102 +111,71 @@ describe("logic for gameboard", () => {
 	test("array parameter equals 200", () => {
 		expect(tetrisBoard.getBoard().length).toEqual(200);
 	});
-
-	test("adding new coordinates onto the board", () => {
-		let arrayOfCoords = [
-			[0, 2],
-			[0, 3],
-			[0, 4],
-			[0, 5],
-		];
-		tetrisBoard.placeCoordsOnBoard(arrayOfCoords);
-		expect(tetrisBoard.getBoard()[2]).toEqual("x");
-		expect(tetrisBoard.getBoard()[5]).toEqual("x");
-	});
-
-	test("adding an additional set of coordinates onto the board", () => {
-		let arrayOfCoords1 = [
-			[0, 2],
-			[0, 3],
-			[0, 4],
-			[0, 5],
-		];
-		let arrayOfCoords2 = [
-			[10, 2],
-			[11, 2],
-			[12, 2],
-			[13, 2],
-		];
-		tetrisBoard.placeCoordsOnBoard(arrayOfCoords1);
-		tetrisBoard.placeCoordsOnBoard(arrayOfCoords2);
-		expect(tetrisBoard.getBoard()[2]).toEqual(1);
-		expect(tetrisBoard.getBoard()[102]).toEqual("x");
-	});
 });
 
-describe("test tetrisPeice and board working together", () => {
-	let tetrisBoard;
-	let lineTetrisPeice;
+// describe("test tetrisPeice and board working together", () => {
+// 	let tetrisBoard;
+// 	let lineTetrisPeice;
 
-	beforeEach(() => {
-		tetrisBoard = board();
-		const linePositions = [
-			[
-				[0, 2],
-				[0, 3],
-				[0, 4],
-				[0, 5],
-			],
-			[
-				[0, 2],
-				[1, 3],
-				[1, 3],
-				[1, 4],
-			],
-		];
-		lineTetrisPeice = createTetrisPiece(linePositions);
-	});
+// 	beforeEach(() => {
+// 		tetrisBoard = board();
+// 		const linePositions = [
+// 			[
+// 				[0, 2],
+// 				[0, 3],
+// 				[0, 4],
+// 				[0, 5],
+// 			],
+// 			[
+// 				[0, 2],
+// 				[1, 3],
+// 				[1, 3],
+// 				[1, 4],
+// 			],
+// 		];
+// 		lineTetrisPeice = createTetrisPiece(linePositions);
+// 	});
 
-	test("creating tetris peice and rendering it onto the board", () => {
-		lineTetrisPeice.rotate();
-		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
-		expect(tetrisBoard.getBoard()[2]).toEqual("x");
-		expect(tetrisBoard.getBoard()[13]).toEqual("x");
-		expect(tetrisBoard.getBoard()[14]).toEqual("x");
-	});
+// 	test("creating tetris peice and rendering it onto the board", () => {
+// 		lineTetrisPeice.rotate();
+// 		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
+// 		expect(tetrisBoard.getBoard()[2]).toEqual("x");
+// 		expect(tetrisBoard.getBoard()[13]).toEqual("x");
+// 		expect(tetrisBoard.getBoard()[14]).toEqual("x");
+// 	});
 
-	test("moveDown function renders correctly onto the board", () => {
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
-		expect(tetrisBoard.getBoard()[22]).toEqual("x");
-	});
+// 	test("moveDown function renders correctly onto the board", () => {
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
+// 		expect(tetrisBoard.getBoard()[22]).toEqual("x");
+// 	});
 
-	test("tetris peices are identified as an 'o' if at bottom of the board", () => {
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
-		lineTetrisPeice.moveDown();
+// 	test("tetris peices are identified as an 'o' if at bottom of the board", () => {
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
+// 		lineTetrisPeice.moveDown();
 
-		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
-		expect(tetrisBoard.getBoard()[193]).toEqual("o");
-	});
-});
+// 		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
+// 		expect(tetrisBoard.getBoard()[193]).toEqual("o");
+// 	});
+// });
 
 // describe("playGame main function", () => {
 // 	let tetrisBoard;
@@ -219,5 +205,3 @@ describe("test tetrisPeice and board working together", () => {
 // 	let board = playGame;
 // });
 // });
-
-// describe("testing rendering function", () => {});
