@@ -89,6 +89,7 @@ let board = (array) => {
 
 	let getBoard = () => {
 		return currentBoard;
+		activeCells = [];
 	};
 
 	let getCoords = (arrayOfCoords) => {
@@ -102,7 +103,6 @@ let board = (array) => {
 		currentBoard.forEach((cell, index) => {
 			if (activeCells.includes(index)) {
 				currentBoard[index] = 2;
-				activeCells = [];
 			}
 			if (setCells.includes(index)) {
 				currentBoard[index] = 3;
@@ -155,8 +155,24 @@ const linePositions = [
 
 ////// TEST AREA ///////
 let newBoardArray = Array.from(Array(200)).fill(1);
-let testBoard = board(newBoardArray);
-let testPeice = createTetrisPiece(linePositions);
-// console.log(testBoard.getCoords(testPeice.getBlocks()));
+
+let playGame = () => {
+	let testBoard = board(newBoardArray);
+	let testPeice = createTetrisPiece(linePositions);
+	Array.from(Array(25)).forEach((num) => {
+		testPeice.moveDown();
+	});
+	testBoard.analyzeCoords(testPeice.getBlocks());
+	console.log(testBoard.getBoard());
+
+	testPeice = createTetrisPiece(linePositions);
+	testBoard.analyzeCoords(testPeice.getBlocks());
+	Array.from(Array(25)).forEach((num) => {
+		testPeice.moveDown();
+	});
+	console.log(testBoard.getBoard());
+};
+
+// playGame();
 
 export { createTetrisPiece, board };
