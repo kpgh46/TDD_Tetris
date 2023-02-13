@@ -111,97 +111,50 @@ describe("logic for gameboard", () => {
 	test("array parameter equals 200", () => {
 		expect(tetrisBoard.getBoard().length).toEqual(200);
 	});
+
+	test("update board with coordinates from tetris peice", () => {
+		let tetrisPeice = createTetrisPiece(linePositions);
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		expect(tetrisBoard.getBoard()[2]).toEqual(2);
+		expect(tetrisBoard.getBoard()[12]).toEqual(1);
+	});
+
+	test("update board when tetris Peice moves downward twice", () => {
+		let tetrisPeice = createTetrisPiece(linePositions);
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		expect(tetrisBoard.getBoard()[22]).toEqual(2);
+		expect(tetrisBoard.getBoard()[2]).toEqual(1);
+	});
+
+	test("board coordinates are 'set' when tetris peices moves to bottom of board", () => {
+		let tetrisPeice = createTetrisPiece(linePositions);
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		expect(tetrisBoard.getBoard()[193]).toEqual(3);
+	});
 });
-
-// describe("test tetrisPeice and board working together", () => {
-// 	let tetrisBoard;
-// 	let lineTetrisPeice;
-
-// 	beforeEach(() => {
-// 		tetrisBoard = board();
-// 		const linePositions = [
-// 			[
-// 				[0, 2],
-// 				[0, 3],
-// 				[0, 4],
-// 				[0, 5],
-// 			],
-// 			[
-// 				[0, 2],
-// 				[1, 3],
-// 				[1, 3],
-// 				[1, 4],
-// 			],
-// 		];
-// 		lineTetrisPeice = createTetrisPiece(linePositions);
-// 	});
-
-// 	test("creating tetris peice and rendering it onto the board", () => {
-// 		lineTetrisPeice.rotate();
-// 		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
-// 		expect(tetrisBoard.getBoard()[2]).toEqual("x");
-// 		expect(tetrisBoard.getBoard()[13]).toEqual("x");
-// 		expect(tetrisBoard.getBoard()[14]).toEqual("x");
-// 	});
-
-// 	test("moveDown function renders correctly onto the board", () => {
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
-// 		expect(tetrisBoard.getBoard()[22]).toEqual("x");
-// 	});
-
-// 	test("tetris peices are identified as an 'o' if at bottom of the board", () => {
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-// 		lineTetrisPeice.moveDown();
-
-// 		tetrisBoard.placeCoordsOnBoard(lineTetrisPeice.getBlocks());
-// 		expect(tetrisBoard.getBoard()[193]).toEqual("o");
-// 	});
-// });
-
-// describe("playGame main function", () => {
-// 	let tetrisBoard;
-// 	let lineTetrisPeice;
-
-// 	beforeEach(() => {
-// 		tetrisBoard = board();
-// 		const linePositions = [
-// 			[
-// 				[0, 2],
-// 				[0, 3],
-// 				[0, 4],
-// 				[0, 5],
-// 			],
-// 			[
-// 				[0, 2],
-// 				[1, 3],
-// 				[1, 3],
-// 				[1, 4],
-// 			],
-// 		];
-// 		lineTetrisPeice = createTetrisPiece(linePositions);
-// 	});
-
-// test("a blank board with 200 cells and a tetris peice is created", () => {
-// 	let game = playGame();
-// 	let board = playGame;
-// });
-// });

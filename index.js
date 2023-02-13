@@ -1,6 +1,6 @@
 import { joinArrayOfNumbers } from "./utils.js";
 
-// factory function which creates tetris blocks
+// CREATE TETRIS PEICE
 const createTetrisPiece = (positionsArray) => {
 	// determines first or second position of Tetris Piece
 	let currentPositionIndex = 0;
@@ -13,12 +13,12 @@ const createTetrisPiece = (positionsArray) => {
 		currentPositionArray = positionsArray[currentPositionIndex];
 	};
 
-	//returns the blocks
+	// returns the blocks
 	let getBlocks = () => {
 		return currentPositionArray;
 	};
 
-	//rotates the blocks by updating the current Position Index
+	// rotates the blocks by updating the current Position Index
 	let rotate = () => {
 		if (currentPositionIndex === 0) {
 			currentPositionIndex = 1;
@@ -80,18 +80,17 @@ const createTetrisPiece = (positionsArray) => {
 	};
 };
 
-// returins the array of cells and placed coordinates
-let newBoardArray = Array.from(Array(200)).fill(1);
+////// BOARD FUNCTION //////
 
 let board = (array) => {
-	let newBoard = array;
-	let newPeice = false;
+	let currentBoard = array;
+	let activeCells = [];
+	let setCells = [];
 
 	let getBoard = () => {
-		return newBoard;
+		return currentBoard;
 	};
 
-	// return coordinates in whole number format (arr.length = 4)
 	let getCoords = (arrayOfCoords) => {
 		let arrayOfJoinedCoords = arrayOfCoords.map((coords) => {
 			return joinArrayOfNumbers(coords);
@@ -99,8 +98,39 @@ let board = (array) => {
 		return arrayOfJoinedCoords;
 	};
 
-	return { getBoard };
+	let updateBoard = () => {
+		currentBoard.forEach((cell, index) => {
+			if (activeCells.includes(index)) {
+				currentBoard[index] = 2;
+			}
+			if (setCells.includes(index)) {
+				currentBoard[index] = 3;
+			}
+		});
+	};
+
+	let analyzeCoords = (arrayOfCoords) => {
+		let coords = getCoords(arrayOfCoords);
+		let checkIfCoordsAtBottom = coords.some((coord) => coord > 189);
+		let checkIfCoordsInSetCells = coords.some((coord) =>
+			setCells.includes(coord)
+		);
+
+		if (checkIfCoordsAtBottom) {
+			coords.forEach((coord) => setCells.push(coord));
+		}
+
+		if (!checkIfCoordsInSetCells) {
+			coords.forEach((coord) => activeCells.push(coord));
+		}
+
+		updateBoard();
+	};
+
+	return { getBoard, analyzeCoords };
 };
+
+///// GAME INFORMATION ////
 
 const linePositions = [
 	[
@@ -117,26 +147,10 @@ const linePositions = [
 	],
 ];
 
-// let displayBoard = (b) => {
-// 	let grid = document.querySelector("#grid");
-// 	grid.innerHTML = "";
-
-// 	b.forEach((cell) => {
-// 		let cellDiv = document.createElement("div");
-// 		cellDiv.classList.add("cell");
-// 		if (cell === 2) {
-// 			cellDiv.classList.add("active");
-// 		}
-// 		if (cell === 3) {
-// 			cellDiv.classList.add("set");
-// 		}
-
-// 		grid.appendChild(cellDiv);
-// 	});
-// };
-
-let createNewTetrisPeice = () => {
-	return createTetrisPiece(linePositions);
-};
+////// TEST AREA ///////
+let newBoardArray = Array.from(Array(200)).fill(1);
+let testBoard = board(newBoardArray);
+let testPeice = createTetrisPiece(linePositions);
+// console.log(testBoard.getCoords(testPeice.getBlocks()));
 
 export { createTetrisPiece, board };
