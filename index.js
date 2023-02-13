@@ -102,6 +102,7 @@ let board = (array) => {
 		currentBoard.forEach((cell, index) => {
 			if (activeCells.includes(index)) {
 				currentBoard[index] = 2;
+				activeCells = [];
 			}
 			if (setCells.includes(index)) {
 				currentBoard[index] = 3;
@@ -122,6 +123,11 @@ let board = (array) => {
 
 		if (!checkIfCoordsInSetCells) {
 			coords.forEach((coord) => activeCells.push(coord));
+		}
+
+		if (checkIfCoordsInSetCells) {
+			let newCoords = coords.map((coord) => coord - 10);
+			newCoords.forEach((coord) => setCells.push(coord));
 		}
 
 		updateBoard();

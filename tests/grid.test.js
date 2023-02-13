@@ -157,4 +157,21 @@ describe("logic for gameboard", () => {
 		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
 		expect(tetrisBoard.getBoard()[193]).toEqual(3);
 	});
+
+	test("board coordinates are placed on a cell already set, so it is moved back 10 spaces", () => {
+		let tetrisPeice = createTetrisPiece(linePositions);
+		Array.from(Array(25)).forEach((num) => {
+			tetrisPeice.moveDown();
+		});
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		let tetrisPeice2 = createTetrisPiece(linePositions);
+		Array.from(Array(25)).forEach((num) => {
+			tetrisPeice2.moveDown();
+		});
+		tetrisBoard.analyzeCoords(tetrisPeice2.getBlocks());
+		expect(tetrisBoard.getBoard()[173]).toEqual(1);
+		expect(tetrisBoard.getBoard()[183]).toEqual(3);
+		expect(tetrisBoard.getBoard()[193]).toEqual(3);
+		expect(tetrisBoard.getBoard()[194]).toEqual(3);
+	});
 });
