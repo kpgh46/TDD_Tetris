@@ -12,4 +12,8 @@ let joinArrayOfNumbers = (arr) => {
 	return parseInt(stringifyArray.join(""));
 };
 
-export { getLastNumber, joinArrayOfNumbers };
+let returnRandomNum = () => {
+	return Math.floor(Math.random() * 3);
+};
+
+export { getLastNumber, joinArrayOfNumbers, returnRandomNum };

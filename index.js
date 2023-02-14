@@ -1,4 +1,4 @@
-import { joinArrayOfNumbers } from "./utils.js";
+import { joinArrayOfNumbers, returnRandomNum } from "./utils.js";
 
 // CREATE TETRIS PEICE
 const createTetrisPiece = (positionsArray) => {
@@ -103,6 +103,10 @@ let board = (array) => {
 		return arrayOfJoinedCoords;
 	};
 
+	let clearActiveCells = () => {
+		activeCells = [];
+	};
+
 	let updateBoard = () => {
 		currentBoard.forEach((cell, index) => {
 			if (activeCells.includes(index)) {
@@ -119,7 +123,7 @@ let board = (array) => {
 	};
 
 	let analyzeCoords = (arrayOfCoords) => {
-		activeCells = [];
+		clearActiveCells();
 		let coords = getCoords(arrayOfCoords);
 		let checkIfCoordsAtBottom = coords.some((coord) => coord > 189);
 		let checkIfCoordsInSetCells = coords.some((coord) =>
@@ -211,10 +215,6 @@ const linePositionsThree = [
 		[3, 5],
 	],
 ];
-
-let returnRandomNum = () => {
-	return Math.floor(Math.random() * 3);
-};
 
 ////// TEST AREA ///////
 let newBoardArray = Array.from(Array(200)).fill(1);
