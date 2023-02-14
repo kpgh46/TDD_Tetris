@@ -2,13 +2,13 @@
     display: flex;
     flex-wrap: wrap;
     border: 1px solid red;
-    width: 500px;
-    height:1200px;
+    width: 250px;
+    height:600px;
 }
 
 .cell{
-    width: 50px;
-    height: 50px;
+    width: 25px;
+    height: 25px;
     /* background-color:red; */
     /* border: .1px solid blue; */
     color: white;

@@ -86,10 +86,14 @@ let board = (array) => {
 	let currentBoard = array;
 	let activeCells = [];
 	let setCells = [];
+	let numberOfPeices = 0;
 
 	let getBoard = () => {
 		return currentBoard;
-		activeCells = [];
+	};
+
+	let getNumberOfPeices = () => {
+		return numberOfPeices;
 	};
 
 	let getCoords = (arrayOfCoords) => {
@@ -107,10 +111,15 @@ let board = (array) => {
 			if (setCells.includes(index)) {
 				currentBoard[index] = 3;
 			}
+
+			if (!activeCells.includes(index) && !setCells.includes(index)) {
+				currentBoard[index] = 1;
+			}
 		});
 	};
 
 	let analyzeCoords = (arrayOfCoords) => {
+		activeCells = [];
 		let coords = getCoords(arrayOfCoords);
 		let checkIfCoordsAtBottom = coords.some((coord) => coord > 189);
 		let checkIfCoordsInSetCells = coords.some((coord) =>
@@ -119,6 +128,7 @@ let board = (array) => {
 
 		if (checkIfCoordsAtBottom) {
 			coords.forEach((coord) => setCells.push(coord));
+			numberOfPeices++;
 		}
 
 		if (!checkIfCoordsInSetCells) {
@@ -128,22 +138,56 @@ let board = (array) => {
 		if (checkIfCoordsInSetCells) {
 			let newCoords = coords.map((coord) => coord - 10);
 			newCoords.forEach((coord) => setCells.push(coord));
+			numberOfPeices++;
 		}
 
 		updateBoard();
 	};
 
-	return { getBoard, analyzeCoords };
+	return { getBoard, analyzeCoords, getNumberOfPeices };
+};
+
+////// DISPLAY //////
+let displayBoard = (b) => {
+	let grid = document.querySelector("#grid");
+	grid.innerHTML = "";
+
+	b.forEach((cell, index) => {
+		let cellDiv = document.createElement("div");
+		cellDiv.classList.add("cell");
+		cellDiv.textContent = index;
+		if (cell === 2) {
+			cellDiv.classList.add("active");
+		}
+		if (cell === 3) {
+			cellDiv.classList.add("set");
+		}
+		grid.appendChild(cellDiv);
+	});
 };
 
 ///// GAME INFORMATION ////
 
 const linePositions = [
 	[
-		[0, 2],
-		[0, 3],
-		[0, 4],
 		[0, 5],
+		[0, 6],
+		[0, 7],
+		[0, 8],
+	],
+	[
+		[1, 2],
+		[2, 2],
+		[3, 2],
+		[4, 2],
+	],
+];
+const linePositionsTwo = [
+	[
+		[3, 2],
+		[3, 3],
+		[3, 4],
+		[3, 5],
 	],
 	[
 		[1, 2],
@@ -153,26 +197,98 @@ const linePositions = [
 	],
 ];
 
+const linePositionsThree = [
+	[
+		[1, 2],
+		[2, 2],
+		[3, 2],
+		[4, 2],
+	],
+	[
+		[3, 2],
+		[3, 3],
+		[3, 4],
+		[3, 5],
+	],
+];
+
+let returnRandomNum = () => {
+	return Math.floor(Math.random() * 3);
+};
+
 ////// TEST AREA ///////
 let newBoardArray = Array.from(Array(200)).fill(1);
+let downbtn = document.getElementById("down");
+
+let generatePeice = () => {
+	const linePositions = [
+		[
+			[0, 5],
+			[0, 6],
+			[0, 7],
+			[0, 8],
+		],
+		[
+			[1, 2],
+			[2, 2],
+			[3, 2],
+			[4, 2],
+		],
+	];
+	const linePositionsTwo = [
+		[
+			[3, 2],
+			[3, 3],
+			[3, 4],
+			[3, 5],
+		],
+		[
+			[1, 2],
+			[2, 2],
+			[3, 2],
+			[4, 2],
+		],
+	];
+
+	const linePositionsThree = [
+		[
+			[1, 2],
+			[2, 2],
+			[3, 2],
+			[4, 2],
+		],
+		[
+			[3, 2],
+			[3, 3],
+			[3, 4],
+			[3, 5],
+		],
+	];
+
+	let arrOfPositions = [linePositions, linePositionsTwo, linePositionsThree];
+	return createTetrisPiece(arrOfPositions[returnRandomNum()]);
+};
 
 let playGame = () => {
 	let testBoard = board(newBoardArray);
-	let testPeice = createTetrisPiece(linePositions);
-	Array.from(Array(25)).forEach((num) => {
-		testPeice.moveDown();
-	});
+	let currentNumberOfPeices = testBoard.getNumberOfPeices();
+	let testPeice = generatePeice();
 	testBoard.analyzeCoords(testPeice.getBlocks());
-	console.log(testBoard.getBoard());
+	displayBoard(testBoard.getBoard());
 
-	testPeice = createTetrisPiece(linePositions);
-	testBoard.analyzeCoords(testPeice.getBlocks());
-	Array.from(Array(25)).forEach((num) => {
+	downbtn.addEventListener("click", () => {
 		testPeice.moveDown();
+		console.log(testPeice.getBlocks());
+		testBoard.analyzeCoords(testPeice.getBlocks());
+		displayBoard(testBoard.getBoard());
+		if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
+			currentNumberOfPeices = testBoard.getNumberOfPeices();
+			console.log("board has more now");
+			testPeice = generatePeice();
+		}
 	});
-	console.log(testBoard.getBoard());
 };
 
-// playGame();
+playGame();
 
 export { createTetrisPiece, board };
