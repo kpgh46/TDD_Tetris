@@ -13,7 +13,7 @@ let joinArrayOfNumbers = (arr) => {
 };
 
 let returnRandomNum = () => {
-	return Math.floor(Math.random() * 3);
+	return Math.floor(Math.random() * 4);
 };
 
 export { getLastNumber, joinArrayOfNumbers, returnRandomNum };

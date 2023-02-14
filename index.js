@@ -172,50 +172,6 @@ let displayBoard = (b) => {
 
 ///// GAME INFORMATION ////
 
-const linePositions = [
-	[
-		[0, 5],
-		[0, 6],
-		[0, 7],
-		[0, 8],
-	],
-	[
-		[1, 2],
-		[2, 2],
-		[3, 2],
-		[4, 2],
-	],
-];
-const linePositionsTwo = [
-	[
-		[3, 2],
-		[3, 3],
-		[3, 4],
-		[3, 5],
-	],
-	[
-		[1, 2],
-		[2, 2],
-		[3, 2],
-		[4, 2],
-	],
-];
-
-const linePositionsThree = [
-	[
-		[1, 2],
-		[2, 2],
-		[3, 2],
-		[4, 2],
-	],
-	[
-		[3, 2],
-		[3, 3],
-		[3, 4],
-		[3, 5],
-	],
-];
-
 ////// TEST AREA ///////
 let newBoardArray = Array.from(Array(200)).fill(1);
 let downbtn = document.getElementById("down");
@@ -223,49 +179,69 @@ let downbtn = document.getElementById("down");
 let generatePeice = () => {
 	const linePositions = [
 		[
+			[0, 3],
+			[0, 4],
 			[0, 5],
 			[0, 6],
-			[0, 7],
-			[0, 8],
 		],
 		[
+			[0, 2],
 			[1, 2],
 			[2, 2],
 			[3, 2],
-			[4, 2],
 		],
 	];
-	const linePositionsTwo = [
-		[
-			[3, 2],
-			[3, 3],
-			[3, 4],
-			[3, 5],
-		],
+	const zeePositions = [
 		[
 			[1, 2],
-			[2, 2],
-			[3, 2],
-			[4, 2],
+			[1, 3],
+			[0, 3],
+			[0, 4],
+		],
+		[
+			[0, 2],
+			[1, 2],
+			[1, 3],
+			[2, 3],
 		],
 	];
 
-	const linePositionsThree = [
+	const squarePositionsThree = [
 		[
+			[0, 2],
+			[0, 3],
 			[1, 2],
-			[2, 2],
-			[3, 2],
-			[4, 2],
+			[1, 3],
 		],
 		[
-			[3, 2],
-			[3, 3],
-			[3, 4],
-			[3, 5],
+			[0, 2],
+			[0, 3],
+			[1, 2],
+			[1, 3],
 		],
 	];
 
-	let arrOfPositions = [linePositions, linePositionsTwo, linePositionsThree];
+	const teePositionsThree = [
+		[
+			[1, 2],
+			[1, 3],
+			[1, 4],
+			[0, 3],
+		],
+		[
+			[1, 2],
+			[1, 3],
+			[1, 4],
+			[2, 3],
+		],
+	];
+
+	let arrOfPositions = [
+		linePositions,
+		zeePositions,
+		squarePositionsThree,
+		teePositionsThree,
+	];
 	return createTetrisPiece(arrOfPositions[returnRandomNum()]);
 };
 
