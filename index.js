@@ -176,8 +176,8 @@ let displayBoard = (b) => {
 let newBoardArray = Array.from(Array(200)).fill(1);
 let downbtn = document.getElementById("down");
 
-let generatePeice = () => {
-	const linePositions = [
+let getRandomBlock = () => {
+	const lineBlock = [
 		[
 			[0, 3],
 			[0, 4],
@@ -191,7 +191,7 @@ let generatePeice = () => {
 			[3, 2],
 		],
 	];
-	const zeePositions = [
+	const zeeBlock = [
 		[
 			[1, 2],
 			[1, 3],
@@ -206,7 +206,7 @@ let generatePeice = () => {
 		],
 	];
 
-	const squarePositionsThree = [
+	const squareBlock = [
 		[
 			[0, 2],
 			[0, 3],
@@ -221,7 +221,7 @@ let generatePeice = () => {
 		],
 	];
 
-	const teePositionsThree = [
+	const teeBlock = [
 		[
 			[1, 2],
 			[1, 3],
@@ -236,13 +236,13 @@ let generatePeice = () => {
 		],
 	];
 
-	let arrOfPositions = [
-		linePositions,
-		zeePositions,
-		squarePositionsThree,
-		teePositionsThree,
-	];
-	return createTetrisPiece(arrOfPositions[returnRandomNum()]);
+	let arrOfPositions = [lineBlock, zeeBlock, squareBlock, teeBlock];
+
+	return arrOfPositions[returnRandomNum()];
+};
+
+let generatePeice = () => {
+	return createTetrisPiece(getRandomBlock());
 };
 
 let playGame = () => {
