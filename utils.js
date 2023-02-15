@@ -16,4 +16,29 @@ let returnRandomNum = () => {
 	return Math.floor(Math.random() * 4);
 };
 
-export { getLastNumber, joinArrayOfNumbers, returnRandomNum };
+let invertNums = (arr) => {
+	let invertedArr = arr.map((num) => {
+		let doubled = Math.abs(num * 2);
+
+		if (num === 0) {
+			return num;
+		}
+		if (num < 0) {
+			return num + doubled;
+		}
+		if (num > 0) {
+			return num - doubled;
+		}
+	});
+	return invertedArr;
+};
+
+let invertNestedArr = (arr) => {
+	let resultArr = [];
+	arr.forEach((num) => {
+		resultArr.push(invertNums(num));
+	});
+	return resultArr;
+};
+
+export { getLastNumber, joinArrayOfNumbers, returnRandomNum, invertNestedArr };

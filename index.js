@@ -1,32 +1,43 @@
-import { joinArrayOfNumbers, returnRandomNum } from "./utils.js";
+import {
+	joinArrayOfNumbers,
+	returnRandomNum,
+	invertNestedArr,
+} from "./utils.js";
 
 // CREATE TETRIS PEICE
-const createTetrisPiece = (positionsArray) => {
-	// determines first or second position of Tetris Piece
-	let currentPositionIndex = 0;
+const createTetrisPiece = (startingPosition, rotationValues) => {
+	let currentPosition = startingPosition;
+	let rotated = false;
+	let invertedRotationValues = invertNestedArr(rotationValues);
 
-	// 4 pairs of array of how the tetris block is positioned
-	let currentPositionArray = positionsArray[currentPositionIndex];
-
-	// updates current position based on position Index
-	let currentBlocks = () => {
-		currentPositionArray = positionsArray[currentPositionIndex];
+	let getBlocks = () => {
+		return currentPosition;
 	};
 
-	// returns the blocks
-	let getBlocks = () => {
-		return currentPositionArray;
+	let getRotate = () => {
+		return rotated;
 	};
 
 	// rotates the blocks by updating the current Position Index
 	let rotate = () => {
-		if (currentPositionIndex === 0) {
-			currentPositionIndex = 1;
-		} else {
-			currentPositionIndex = 0;
+		if (!rotated) {
+			currentPosition.forEach((arr, index) => {
+				arr.forEach((num, i) => {
+					currentPosition[index][i] =
+						currentPosition[index][i] + rotationValues[index][i];
+				});
+			});
 		}
-
-		currentBlocks();
+		if (rotated) {
+			currentPosition.forEach((arr, index) => {
+				arr.forEach((num, i) => {
+					currentPosition[index][i] =
+						currentPosition[index][i] +
+						invertedRotationValues[index][i];
+				});
+			});
+		}
+		rotated = !rotated;
 	};
 
 	let moveLeft = () => {
@@ -59,13 +70,13 @@ const createTetrisPiece = (positionsArray) => {
 	};
 
 	let moveDown = () => {
-		let checkAll = currentPositionArray.every((num) => {
+		let checkAll = currentPosition.every((num) => {
 			let firstNum = num[0];
 
 			return firstNum < 19;
 		});
 		if (checkAll) {
-			currentPositionArray.forEach((num) => {
+			currentPosition.forEach((num) => {
 				num[0] = num[0] + 1;
 			});
 		}
@@ -77,6 +88,8 @@ const createTetrisPiece = (positionsArray) => {
 		moveLeft,
 		moveRight,
 		moveDown,
+		getRotate,
+		rotated,
 	};
 };
 
@@ -179,16 +192,10 @@ let downbtn = document.getElementById("down");
 let getRandomBlock = () => {
 	const lineBlock = [
 		[
-			[0, 3],
-			[0, 4],
-			[0, 5],
-			[0, 6],
-		],
-		[
-			[0, 2],
-			[1, 2],
-			[2, 2],
-			[3, 2],
+			[2, 1],
+			[1, 0],
+			[0, -1],
+			[-1, -2],
 		],
 	];
 	const zeeBlock = [
@@ -265,6 +272,6 @@ let playGame = () => {
 	});
 };
 
-playGame();
+// playGame();
 
 export { createTetrisPiece, board };
