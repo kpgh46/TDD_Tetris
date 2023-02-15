@@ -49,9 +49,19 @@ describe("create tetris blocks", () => {
 	});
 
 	test("tetris peice moves downward", () => {
-		tetrisBlock.moveDown();
+		// created brand new block instance
+		let newBlock = createTetrisPiece(
+			[
+				[0, 3],
+				[1, 3],
+				[2, 3],
+				[3, 3],
+			],
+			rotationValues
+		);
+		newBlock.moveDown();
 
-		expect(tetrisBlock.getBlocks()[0][0]).toEqual(5);
+		expect(newBlock.getBlocks()[0][0]).toEqual(1);
 	});
 
 	// test("tetris peice does not exceed game boards on bottom", () => {
