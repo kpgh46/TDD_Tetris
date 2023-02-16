@@ -41,13 +41,13 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 	};
 
 	let moveLeft = () => {
-		let checkAll = currentPositionArray.every((num) => {
+		let checkAll = currentPosition.every((num) => {
 			let secondNum = num[1];
 			return secondNum > 0;
 		});
 
 		if (checkAll) {
-			currentPositionArray.forEach((num) => {
+			currentPosition.forEach((num) => {
 				if (num[1] > 0) {
 					num[1] = num[1] - 1;
 				}
@@ -56,14 +56,14 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 	};
 
 	let moveRight = () => {
-		let checkAll = currentPositionArray.every((num) => {
+		let checkAll = currentPosition.every((num) => {
 			let secondNum = num[1];
 
 			return secondNum < 9;
 		});
 
 		if (checkAll) {
-			currentPositionArray.forEach((num) => {
+			currentPosition.forEach((num) => {
 				num[1] = num[1] + 1;
 			});
 		}

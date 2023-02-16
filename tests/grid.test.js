@@ -38,11 +38,8 @@ describe("create tetris blocks", () => {
 
 	test("tetris peice rotates back to first position", () => {
 		tetrisBlock.rotate();
-		console.log(tetrisBlock.getBlocks(), 1);
 		tetrisBlock.rotate();
-		console.log(tetrisBlock.getBlocks(), 2);
 		tetrisBlock.rotate();
-		console.log(tetrisBlock.getBlocks(), 3);
 
 		expect(tetrisBlock.getBlocks()[0][0]).toEqual(4);
 		expect(tetrisBlock.getBlocks()[1][1]).toEqual(5);
@@ -64,50 +61,68 @@ describe("create tetris blocks", () => {
 		expect(newBlock.getBlocks()[0][0]).toEqual(1);
 	});
 
-	// test("tetris peice does not exceed game boards on bottom", () => {
-	// 	Array.from(Array(100)).forEach((num) => tetrisBlock.moveDown());
+	test("tetris peice does not exceed game boards on bottom", () => {
+		Array.from(Array(100)).forEach((num) => tetrisBlock.moveDown());
 
-	// 	expect(tetrisBlock.getBlocks()[3][0]).toEqual(19);
-	// });
+		expect(tetrisBlock.getBlocks()[0][0]).toEqual(19);
+	});
 
-	// test("rotating peice twice returns to first position", () => {
-	// 	tetrisBlock.rotate();
-	// 	tetrisBlock.rotate();
-	// 	expect(tetrisBlock.getBlocks()[0][0]).toEqual(0);
-	// 	expect(tetrisBlock.getBlocks()[1][1]).toEqual(3);
-	// });
+	test("tetris peice moves left", () => {
+		console.log(tetrisBlock.getBlocks());
+		tetrisBlock.moveLeft();
+		expect(tetrisBlock.getBlocks()[0][1]).toEqual(6);
+		expect(tetrisBlock.getBlocks()[1][1]).toEqual(4);
+	});
 
-	// test("tetris Peice rotates once", () => {
-	// 	tetrisBlock.rotate();
-	// 	expect(tetrisBlock.getBlocks()[0][1]).toEqual(4);
-	// });
+	test("tetris peice moves right", () => {
+		tetrisBlock.moveRight();
+		tetrisBlock.moveRight();
+		expect(tetrisBlock.getBlocks()[0][1]).toEqual(8);
+		expect(tetrisBlock.getBlocks()[1][1]).toEqual(6);
+	});
 
-	// test("tetris peice moves left", () => {
-	// 	tetrisBlock.moveLeft();
-	// 	expect(tetrisBlock.getBlocks()[0][1]).toEqual(1);
-	// 	expect(tetrisBlock.getBlocks()[1][1]).toEqual(2);
-	// });
+	test("tetris peice does not exceed board game limits on left", () => {
+		let newBlockTwo = createTetrisPiece(
+			[
+				[0, 3],
+				[1, 3],
+				[2, 3],
+				[3, 3],
+			],
+			rotationValues
+		);
 
-	// test("tetris peice moves right", () => {
-	// 	tetrisBlock.moveRight();
-	// 	tetrisBlock.moveRight();
-	// 	expect(tetrisBlock.getBlocks()[0][1]).toEqual(3);
-	// 	expect(tetrisBlock.getBlocks()[1][1]).toEqual(4);
-	// });
+		newBlockTwo.moveLeft();
+		newBlockTwo.moveLeft();
+		newBlockTwo.moveLeft();
+		newBlockTwo.moveLeft();
+		newBlockTwo.moveLeft();
+		newBlockTwo.moveLeft();
 
-	// test("tetris peice does not exceed board game limits on left", () => {
-	// 	//excessive amount of Left moves
-	// 	Array.from(Array(100)).forEach((num) => tetrisBlock.moveLeft());
+		expect(newBlockTwo.getBlocks()[3][1]).toEqual(0);
+	});
 
-	// 	expect(tetrisBlock.getBlocks()[0][1]).toEqual(0);
-	// });
+	test("tetris peice does not exceed board game limits on right", () => {
+		let newBlockThree = createTetrisPiece(
+			[
+				[0, 3],
+				[1, 3],
+				[2, 3],
+				[3, 3],
+			],
+			rotationValues
+		);
 
-	// test("tetris peice does not exceed board game limits on right", () => {
-	// 	//exessive amount of right moves
-	// 	Array.from(Array(100)).forEach((num) => tetrisBlock.moveRight());
+		newBlockThree.moveRight();
+		newBlockThree.moveRight();
+		newBlockThree.moveRight();
+		newBlockThree.moveRight();
+		newBlockThree.moveRight();
+		newBlockThree.moveRight();
+		newBlockThree.moveRight();
 
-	// 	expect(tetrisBlock.getBlocks()[0][1]).toEqual(6);
-	// });
+		expect(newBlockThree.getBlocks()[3][1]).toEqual(9);
+	});
 });
 
 // describe("logic for gameboard", () => {
