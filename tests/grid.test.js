@@ -2,20 +2,26 @@ import { createTetrisPiece, board } from "../index";
 
 describe("create tetris blocks", () => {
 	let tetrisBlock;
-	const startingPosition = [
-		[0, 3],
-		[1, 3],
-		[2, 3],
-		[3, 3],
-	];
-
-	const rotationValues = [
+	const rotationValuesTwo = [
 		[2, 2],
 		[1, 1],
 		[0, 0],
 		[-1, -1],
 	];
 	beforeEach(() => {
+		const startingPosition = [
+			[0, 3],
+			[1, 3],
+			[2, 3],
+			[3, 3],
+		];
+
+		const rotationValues = [
+			[2, 2],
+			[1, 1],
+			[0, 0],
+			[-1, -1],
+		];
 		tetrisBlock = createTetrisPiece(startingPosition, rotationValues);
 	});
 
@@ -30,7 +36,6 @@ describe("create tetris blocks", () => {
 
 	test("tetris peice can rotate to second position", () => {
 		tetrisBlock.rotate();
-		console.log(tetrisBlock.getBlocks(), 1);
 
 		expect(tetrisBlock.getBlocks()[0][0]).toEqual(2);
 		expect(tetrisBlock.getBlocks()[1][1]).toEqual(4);
@@ -39,89 +44,47 @@ describe("create tetris blocks", () => {
 	test("tetris peice rotates back to first position", () => {
 		tetrisBlock.rotate();
 		tetrisBlock.rotate();
-		tetrisBlock.rotate();
 
-		expect(tetrisBlock.getBlocks()[0][0]).toEqual(4);
-		expect(tetrisBlock.getBlocks()[1][1]).toEqual(5);
+		expect(tetrisBlock.getBlocks()[0][0]).toEqual(0);
+		expect(tetrisBlock.getBlocks()[1][1]).toEqual(3);
 	});
 
 	test("tetris peice moves downward", () => {
-		// created brand new block instance
-		let newBlock = createTetrisPiece(
-			[
-				[0, 3],
-				[1, 3],
-				[2, 3],
-				[3, 3],
-			],
-			rotationValues
-		);
-		newBlock.moveDown();
+		tetrisBlock.moveDown();
 
-		expect(newBlock.getBlocks()[0][0]).toEqual(1);
+		expect(tetrisBlock.getBlocks()[0][0]).toEqual(1);
 	});
 
 	test("tetris peice does not exceed game boards on bottom", () => {
 		Array.from(Array(100)).forEach((num) => tetrisBlock.moveDown());
 
-		expect(tetrisBlock.getBlocks()[0][0]).toEqual(19);
+		expect(tetrisBlock.getBlocks()[3][0]).toEqual(19);
 	});
 
 	test("tetris peice moves left", () => {
 		console.log(tetrisBlock.getBlocks());
 		tetrisBlock.moveLeft();
-		expect(tetrisBlock.getBlocks()[0][1]).toEqual(6);
-		expect(tetrisBlock.getBlocks()[1][1]).toEqual(4);
+		expect(tetrisBlock.getBlocks()[0][1]).toEqual(2);
+		expect(tetrisBlock.getBlocks()[1][1]).toEqual(2);
 	});
 
 	test("tetris peice moves right", () => {
 		tetrisBlock.moveRight();
 		tetrisBlock.moveRight();
-		expect(tetrisBlock.getBlocks()[0][1]).toEqual(8);
-		expect(tetrisBlock.getBlocks()[1][1]).toEqual(6);
+		expect(tetrisBlock.getBlocks()[0][1]).toEqual(5);
+		expect(tetrisBlock.getBlocks()[1][1]).toEqual(5);
 	});
 
 	test("tetris peice does not exceed board game limits on left", () => {
-		let newBlockTwo = createTetrisPiece(
-			[
-				[0, 3],
-				[1, 3],
-				[2, 3],
-				[3, 3],
-			],
-			rotationValues
-		);
+		Array.from(Array(100)).forEach((num) => tetrisBlock.moveLeft());
 
-		newBlockTwo.moveLeft();
-		newBlockTwo.moveLeft();
-		newBlockTwo.moveLeft();
-		newBlockTwo.moveLeft();
-		newBlockTwo.moveLeft();
-		newBlockTwo.moveLeft();
-
-		expect(newBlockTwo.getBlocks()[3][1]).toEqual(0);
+		expect(tetrisBlock.getBlocks()[3][1]).toEqual(0);
 	});
 
 	test("tetris peice does not exceed board game limits on right", () => {
-		let newBlockThree = createTetrisPiece(
-			[
-				[0, 3],
-				[1, 3],
-				[2, 3],
-				[3, 3],
-			],
-			rotationValues
-		);
+		Array.from(Array(100)).forEach((num) => tetrisBlock.moveRight());
 
-		newBlockThree.moveRight();
-		newBlockThree.moveRight();
-		newBlockThree.moveRight();
-		newBlockThree.moveRight();
-		newBlockThree.moveRight();
-		newBlockThree.moveRight();
-		newBlockThree.moveRight();
-
-		expect(newBlockThree.getBlocks()[3][1]).toEqual(9);
+		expect(tetrisBlock.getBlocks()[3][1]).toEqual(9);
 	});
 });
 
