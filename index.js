@@ -18,24 +18,21 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 		return rotated;
 	};
 
-	// rotates the blocks by updating the current Position Index
+	let updateRotatedPositions = (values) => {
+		currentPosition.forEach((arr, index) => {
+			arr.forEach((num, i) => {
+				currentPosition[index][i] =
+					currentPosition[index][i] + values[index][i];
+			});
+		});
+	};
+
 	let rotate = () => {
 		if (!rotated) {
-			currentPosition.forEach((arr, index) => {
-				arr.forEach((num, i) => {
-					currentPosition[index][i] =
-						currentPosition[index][i] + rotationValues[index][i];
-				});
-			});
+			updateRotatedPositions(rotationValues);
 		}
 		if (rotated) {
-			currentPosition.forEach((arr, index) => {
-				arr.forEach((num, i) => {
-					currentPosition[index][i] =
-						currentPosition[index][i] +
-						invertedRotationValues[index][i];
-				});
-			});
+			updateRotatedPositions(invertedRotationValues);
 		}
 		rotated = !rotated;
 	};
@@ -188,14 +185,21 @@ let displayBoard = (b) => {
 ////// TEST AREA ///////
 let newBoardArray = Array.from(Array(200)).fill(1);
 let downbtn = document.getElementById("down");
+let rotatebtn = document.getElementById("rotate");
 
 let getRandomBlock = () => {
 	const lineBlock = [
 		[
-			[2, 1],
-			[1, 0],
-			[0, -1],
-			[-1, -2],
+			[0, 3],
+			[1, 3],
+			[2, 3],
+			[3, 3],
+		],
+		[
+			[2, 2],
+			[1, 1],
+			[0, 0],
+			[-1, -1],
 		],
 	];
 	const zeeBlock = [
@@ -206,10 +210,10 @@ let getRandomBlock = () => {
 			[0, 4],
 		],
 		[
-			[0, 2],
-			[1, 2],
-			[1, 3],
-			[2, 3],
+			[-1, 1],
+			[0, 0],
+			[1, 1],
+			[2, 0],
 		],
 	];
 
@@ -220,12 +224,7 @@ let getRandomBlock = () => {
 			[1, 2],
 			[1, 3],
 		],
-		[
-			[0, 2],
-			[0, 3],
-			[1, 2],
-			[1, 3],
-		],
+		[[[0, 0], [0, 0], [0, 0], [0]]],
 	];
 
 	const teeBlock = [
@@ -236,10 +235,10 @@ let getRandomBlock = () => {
 			[0, 3],
 		],
 		[
-			[1, 2],
-			[1, 3],
-			[1, 4],
-			[2, 3],
+			[0, 0],
+			[0, 0],
+			[0, 0],
+			[2, 0],
 		],
 	];
 
@@ -249,7 +248,8 @@ let getRandomBlock = () => {
 };
 
 let generatePeice = () => {
-	return createTetrisPiece(getRandomBlock());
+	let randomBlock = getRandomBlock();
+	return createTetrisPiece(randomBlock[0], randomBlock[1]);
 };
 
 let playGame = () => {
@@ -261,9 +261,21 @@ let playGame = () => {
 
 	downbtn.addEventListener("click", () => {
 		testPeice.moveDown();
-		console.log(testPeice.getBlocks());
 		testBoard.analyzeCoords(testPeice.getBlocks());
 		displayBoard(testBoard.getBoard());
+
+		if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
+			currentNumberOfPeices = testBoard.getNumberOfPeices();
+			console.log("board has more now");
+			testPeice = generatePeice();
+		}
+	});
+
+	rotatebtn.addEventListener("click", () => {
+		testPeice.rotate();
+		testBoard.analyzeCoords(testPeice.getBlocks());
+		displayBoard(testBoard.getBoard());
+
 		if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
 			currentNumberOfPeices = testBoard.getNumberOfPeices();
 			console.log("board has more now");
@@ -272,6 +284,6 @@ let playGame = () => {
 	});
 };
 
-// playGame();
+playGame();
 
 export { createTetrisPiece, board };

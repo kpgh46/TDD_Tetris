@@ -2,12 +2,7 @@ import { createTetrisPiece, board } from "../index";
 
 describe("create tetris blocks", () => {
 	let tetrisBlock;
-	const rotationValuesTwo = [
-		[2, 2],
-		[1, 1],
-		[0, 0],
-		[-1, -1],
-	];
+
 	beforeEach(() => {
 		const startingPosition = [
 			[0, 3],
@@ -88,97 +83,82 @@ describe("create tetris blocks", () => {
 	});
 });
 
-// describe("logic for gameboard", () => {
-// 	let tetrisBoard;
-// 	let newBoardArray;
+describe("logic for gameboard", () => {
+	let tetrisBoard;
+	let newBoardArray;
+	let tetrisPeice;
 
-// 	const linePositions = [
-// 		[
-// 			[0, 2],
-// 			[0, 3],
-// 			[0, 4],
-// 			[0, 5],
-// 		],
-// 		[
-// 			[1, 2],
-// 			[2, 2],
-// 			[3, 2],
-// 			[4, 2],
-// 		],
-// 	];
+	beforeEach(() => {
+		newBoardArray = Array.from(Array(200)).fill(1);
+		tetrisBoard = board(newBoardArray);
+		const startingPosition = [
+			[0, 3],
+			[1, 3],
+			[2, 3],
+			[3, 3],
+		];
 
-// 	beforeEach(() => {
-// 		newBoardArray = Array.from(Array(200)).fill(1);
-// 		tetrisBoard = board(newBoardArray);
-// 	});
-// 	test("board intakes array parameter", () => {
-// 		expect(tetrisBoard.getBoard().length).toBeGreaterThan(0);
-// 	});
+		const rotationValues = [
+			[2, 2],
+			[1, 1],
+			[0, 0],
+			[-1, -1],
+		];
+		tetrisPeice = createTetrisPiece(startingPosition, rotationValues);
+	});
+	test("board intakes array parameter", () => {
+		expect(tetrisBoard.getBoard().length).toBeGreaterThan(0);
+	});
 
-// 	test("array parameter equals 200", () => {
-// 		expect(tetrisBoard.getBoard().length).toEqual(200);
-// 	});
+	test("array parameter equals 200", () => {
+		expect(tetrisBoard.getBoard().length).toEqual(200);
+	});
 
-// 	test("update board with coordinates from tetris peice", () => {
-// 		let tetrisPeice = createTetrisPiece(linePositions);
-// 		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-// 		expect(tetrisBoard.getBoard()[2]).toEqual(2);
-// 		expect(tetrisBoard.getBoard()[12]).toEqual(1);
-// 	});
+	test("update board with coordinates from tetris peice", () => {
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		expect(tetrisBoard.getBoard()[3]).toEqual(2);
+		expect(tetrisBoard.getBoard()[13]).toEqual(2);
+		expect(tetrisBoard.getBoard()[15]).toEqual(1);
+	});
 
-// 	test("update board when tetris Peice moves downward twice", () => {
-// 		let tetrisPeice = createTetrisPiece(linePositions);
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-// 		expect(tetrisBoard.getBoard()[22]).toEqual(2);
-// 		expect(tetrisBoard.getBoard()[2]).toEqual(1);
-// 	});
+	test("update board when tetris Peice moves downward twice", () => {
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		expect(tetrisBoard.getBoard()[53]).toEqual(2);
+		expect(tetrisBoard.getBoard()[3]).toEqual(1);
+	});
 
-// 	test("board coordinates are 'set' when tetris peices moves to bottom of board", () => {
-// 		let tetrisPeice = createTetrisPiece(linePositions);
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisPeice.moveDown();
-// 		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-// 		expect(tetrisBoard.getBoard()[193]).toEqual(3);
-// 	});
+	test("board coordinates are 'set' when tetris peices moves to bottom of board", () => {
+		Array.from(Array(100)).forEach((num) => tetrisPeice.moveDown());
 
-// 	test("board coordinates are placed on a cell already set, so it is moved back 10 spaces", () => {
-// 		let tetrisPeice = createTetrisPiece(linePositions);
-// 		Array.from(Array(25)).forEach((num) => {
-// 			tetrisPeice.moveDown();
-// 		});
-// 		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-// 		let tetrisPeice2 = createTetrisPiece(linePositions);
-// 		Array.from(Array(25)).forEach((num) => {
-// 			tetrisPeice2.moveDown();
-// 		});
-// 		tetrisBoard.analyzeCoords(tetrisPeice2.getBlocks());
-// 		expect(tetrisBoard.getBoard()[173]).toEqual(1);
-// 		expect(tetrisBoard.getBoard()[183]).toEqual(3);
-// 		expect(tetrisBoard.getBoard()[193]).toEqual(3);
-// 		expect(tetrisBoard.getBoard()[194]).toEqual(3);
-// 	});
-// });
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		expect(tetrisBoard.getBoard()[193]).toEqual(3);
+	});
+
+	// test("board coordinates are placed on a cell already set, so it is moved back 10 spaces", () => {
+	// 	Array.from(Array(25)).forEach((num) => tetrisPeice.moveDown());
+
+	// 	const startingPosition = [
+	// 		[0, 3],
+	// 		[1, 3],
+	// 		[2, 3],
+	// 		[3, 3],
+	// 	];
+
+	// 	const rotationValues = [
+	// 		[2, 2],
+	// 		[1, 1],
+	// 		[0, 0],
+	// 		[-1, -1],
+	// 	];
+	// 	let newPeice = createTetrisPiece(startingPosition, rotationValues);
+
+	// 	Array.from(Array(25)).forEach((num) => newPeice.moveDown());
+
+	// 	console.log(tetrisPeice.getBlocks(), "t");
+	// 	console.log(newPeice.getBlocks(), "n");
+
+	// 	console.log(tetrisPeice.getBlocks());
+	// });
+});
