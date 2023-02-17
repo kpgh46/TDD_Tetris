@@ -1,4 +1,4 @@
-import { createTetrisPiece, board } from "../index";
+import { createTetrisPiece, board, generatePeice } from "../index";
 
 describe("create tetris blocks", () => {
 	let tetrisBlock;
@@ -136,29 +136,21 @@ describe("logic for gameboard", () => {
 		expect(tetrisBoard.getBoard()[193]).toEqual(3);
 	});
 
-	// test("board coordinates are placed on a cell already set, so it is moved back 10 spaces", () => {
-	// 	Array.from(Array(25)).forEach((num) => tetrisPeice.moveDown());
+	test("board score updates if entire row is filled with tetris peices ", () => {
+		tetrisBoard.analyzeCoords([
+			[1, 0],
+			[1, 1],
+			[1, 2],
+			[1, 3],
+			[1, 4],
+			[1, 5],
+			[1, 6],
+			[1, 7],
+			[1, 8],
+			[1, 9],
+		]);
 
-	// 	const startingPosition = [
-	// 		[0, 3],
-	// 		[1, 3],
-	// 		[2, 3],
-	// 		[3, 3],
-	// 	];
-
-	// 	const rotationValues = [
-	// 		[2, 2],
-	// 		[1, 1],
-	// 		[0, 0],
-	// 		[-1, -1],
-	// 	];
-	// 	let newPeice = createTetrisPiece(startingPosition, rotationValues);
-
-	// 	Array.from(Array(25)).forEach((num) => newPeice.moveDown());
-
-	// 	console.log(tetrisPeice.getBlocks(), "t");
-	// 	console.log(newPeice.getBlocks(), "n");
-
-	// 	console.log(tetrisPeice.getBlocks());
-	// });
+		console.log(tetrisBoard.getBoard());
+		expect(tetrisBoard.getScore()).toEqual(1);
+	});
 });

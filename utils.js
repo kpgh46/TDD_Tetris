@@ -41,4 +41,70 @@ let invertNestedArr = (arr) => {
 	return resultArr;
 };
 
-export { getLastNumber, joinArrayOfNumbers, returnRandomNum, invertNestedArr };
+let getRandomBlock = () => {
+	const lineBlock = [
+		[
+			[0, 3],
+			[1, 3],
+			[2, 3],
+			[3, 3],
+		],
+		[
+			[2, 2],
+			[1, 1],
+			[0, 0],
+			[-1, -1],
+		],
+	];
+	const zeeBlock = [
+		[
+			[1, 2],
+			[1, 3],
+			[0, 3],
+			[0, 4],
+		],
+		[
+			[-1, 1],
+			[0, 0],
+			[1, 1],
+			[2, 0],
+		],
+	];
+
+	const squareBlock = [
+		[
+			[0, 2],
+			[0, 3],
+			[1, 2],
+			[1, 3],
+		],
+		[[[0, 0], [0, 0], [0, 0], [0]]],
+	];
+
+	const teeBlock = [
+		[
+			[1, 2],
+			[1, 3],
+			[1, 4],
+			[0, 3],
+		],
+		[
+			[0, 0],
+			[0, 0],
+			[0, 0],
+			[2, 0],
+		],
+	];
+
+	let arrOfPositions = [lineBlock, zeeBlock, squareBlock, teeBlock];
+
+	return arrOfPositions[returnRandomNum()];
+};
+
+export {
+	getLastNumber,
+	joinArrayOfNumbers,
+	returnRandomNum,
+	invertNestedArr,
+	getRandomBlock,
+};

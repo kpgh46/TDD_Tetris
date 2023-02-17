@@ -1,7 +1,7 @@
 import {
 	joinArrayOfNumbers,
-	returnRandomNum,
 	invertNestedArr,
+	getRandomBlock,
 } from "./utils.js";
 
 // CREATE TETRIS PEICE
@@ -179,74 +179,12 @@ let displayBoard = (b) => {
 	});
 };
 
-///// GAME INFORMATION ////
-
 ////// TEST AREA ///////
 let newBoardArray = Array.from(Array(200)).fill(1);
 let downbtn = document.getElementById("down");
 let rotatebtn = document.getElementById("rotate");
 let leftbtn = document.getElementById("left");
 let rightbtn = document.getElementById("right");
-
-let getRandomBlock = () => {
-	const lineBlock = [
-		[
-			[0, 3],
-			[1, 3],
-			[2, 3],
-			[3, 3],
-		],
-		[
-			[2, 2],
-			[1, 1],
-			[0, 0],
-			[-1, -1],
-		],
-	];
-	const zeeBlock = [
-		[
-			[1, 2],
-			[1, 3],
-			[0, 3],
-			[0, 4],
-		],
-		[
-			[-1, 1],
-			[0, 0],
-			[1, 1],
-			[2, 0],
-		],
-	];
-
-	const squareBlock = [
-		[
-			[0, 2],
-			[0, 3],
-			[1, 2],
-			[1, 3],
-		],
-		[[[0, 0], [0, 0], [0, 0], [0]]],
-	];
-
-	const teeBlock = [
-		[
-			[1, 2],
-			[1, 3],
-			[1, 4],
-			[0, 3],
-		],
-		[
-			[0, 0],
-			[0, 0],
-			[0, 0],
-			[2, 0],
-		],
-	];
-
-	let arrOfPositions = [lineBlock, zeeBlock, squareBlock, teeBlock];
-
-	return arrOfPositions[returnRandomNum()];
-};
 
 let generatePeice = () => {
 	let randomBlock = getRandomBlock();
@@ -370,7 +308,5 @@ let playGame = () => {
 		}
 	});
 };
-
-playGame();
 
 export { createTetrisPiece, board };
