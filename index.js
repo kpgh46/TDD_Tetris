@@ -140,18 +140,17 @@ let board = (array) => {
 			setCells.includes(coord)
 		);
 
-		if (checkIfCoordsAtBottom) {
-			coords.forEach((coord) => setCells.push(coord));
+		if (checkIfCoordsInSetCells) {
+			let newCoords = coords.map((coord) => coord - 10);
+			newCoords.forEach((coord) => setCells.push(coord));
 			numberOfPeices++;
 		}
 
 		if (!checkIfCoordsInSetCells) {
 			coords.forEach((coord) => activeCells.push(coord));
 		}
-
-		if (checkIfCoordsInSetCells) {
-			let newCoords = coords.map((coord) => coord - 10);
-			newCoords.forEach((coord) => setCells.push(coord));
+		if (!checkIfCoordsInSetCells && checkIfCoordsAtBottom) {
+			coords.forEach((coord) => setCells.push(coord));
 			numberOfPeices++;
 		}
 
@@ -186,6 +185,8 @@ let displayBoard = (b) => {
 let newBoardArray = Array.from(Array(200)).fill(1);
 let downbtn = document.getElementById("down");
 let rotatebtn = document.getElementById("rotate");
+let leftbtn = document.getElementById("left");
+let rightbtn = document.getElementById("right");
 
 let getRandomBlock = () => {
 	const lineBlock = [
@@ -259,6 +260,7 @@ let playGame = () => {
 	testBoard.analyzeCoords(testPeice.getBlocks());
 	displayBoard(testBoard.getBoard());
 
+	///// CLICK EVENTS //////
 	downbtn.addEventListener("click", () => {
 		testPeice.moveDown();
 		testBoard.analyzeCoords(testPeice.getBlocks());
@@ -271,8 +273,93 @@ let playGame = () => {
 		}
 	});
 
+	document.addEventListener("keydown", (e) => {
+		let event = e.key;
+		if (event === "ArrowDown") {
+			testPeice.moveDown();
+			testBoard.analyzeCoords(testPeice.getBlocks());
+			displayBoard(testBoard.getBoard());
+			console.log(testBoard.getBoard());
+
+			if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
+				currentNumberOfPeices = testBoard.getNumberOfPeices();
+				console.log("board has more now");
+				testPeice = generatePeice();
+			}
+		}
+	});
+
+	document.addEventListener("keydown", (e) => {
+		let event = e.key;
+		if (event === "ArrowLeft") {
+			testPeice.moveLeft();
+			testBoard.analyzeCoords(testPeice.getBlocks());
+			displayBoard(testBoard.getBoard());
+
+			if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
+				currentNumberOfPeices = testBoard.getNumberOfPeices();
+				console.log("board has more now");
+				testPeice = generatePeice();
+			}
+		}
+	});
+
+	document.addEventListener("keydown", (e) => {
+		let event = e.key;
+		if (event === "ArrowRight") {
+			testPeice.moveRight();
+			testBoard.analyzeCoords(testPeice.getBlocks());
+			displayBoard(testBoard.getBoard());
+
+			if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
+				currentNumberOfPeices = testBoard.getNumberOfPeices();
+				console.log("board has more now");
+				testPeice = generatePeice();
+			}
+		}
+	});
+
+	document.addEventListener("keydown", (e) => {
+		let event = e.key;
+		if (event === "ArrowUp") {
+			testPeice.rotate();
+			testBoard.analyzeCoords(testPeice.getBlocks());
+			displayBoard(testBoard.getBoard());
+
+			if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
+				currentNumberOfPeices = testBoard.getNumberOfPeices();
+				console.log("board has more now");
+				testPeice = generatePeice();
+			}
+		}
+	});
+
 	rotatebtn.addEventListener("click", () => {
 		testPeice.rotate();
+		testBoard.analyzeCoords(testPeice.getBlocks());
+		displayBoard(testBoard.getBoard());
+
+		if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
+			currentNumberOfPeices = testBoard.getNumberOfPeices();
+			console.log("board has more now");
+			testPeice = generatePeice();
+		}
+	});
+
+	leftbtn.addEventListener("click", () => {
+		testPeice.moveLeft();
+		testBoard.analyzeCoords(testPeice.getBlocks());
+		displayBoard(testBoard.getBoard());
+
+		if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
+			currentNumberOfPeices = testBoard.getNumberOfPeices();
+			console.log("board has more now");
+			testPeice = generatePeice();
+		}
+	});
+
+	rightbtn.addEventListener("click", () => {
+		testPeice.moveRight();
 		testBoard.analyzeCoords(testPeice.getBlocks());
 		displayBoard(testBoard.getBoard());
 
