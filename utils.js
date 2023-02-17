@@ -41,6 +41,19 @@ let invertNestedArr = (arr) => {
 	return resultArr;
 };
 
+let getTwoDArr = (arr) => {
+	let twoDArr = [];
+	arr.forEach((num, index) => {
+		if (index % 10 === 0) {
+			let end = index + 9;
+			let tempArr = arr.slice(index, end);
+			twoDArr.push(tempArr);
+		}
+	});
+
+	return twoDArr;
+};
+
 let getRandomBlock = () => {
 	const lineBlock = [
 		[
@@ -107,4 +120,5 @@ export {
 	returnRandomNum,
 	invertNestedArr,
 	getRandomBlock,
+	getTwoDArr,
 };

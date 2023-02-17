@@ -138,19 +138,18 @@ describe("logic for gameboard", () => {
 
 	test("board score updates if entire row is filled with tetris peices ", () => {
 		tetrisBoard.analyzeCoords([
-			[1, 0],
-			[1, 1],
-			[1, 2],
-			[1, 3],
-			[1, 4],
-			[1, 5],
-			[1, 6],
-			[1, 7],
-			[1, 8],
-			[1, 9],
+			[19, 0],
+			[19, 1],
+			[19, 2],
+			[19, 3],
+			[19, 4],
+			[19, 5],
+			[19, 6],
+			[19, 7],
+			[19, 8],
+			[19, 9],
 		]);
 
-		console.log(tetrisBoard.getBoard());
 		expect(tetrisBoard.getScore()).toEqual(1);
 	});
 });

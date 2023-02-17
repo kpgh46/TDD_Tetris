@@ -2,6 +2,7 @@ import {
 	joinArrayOfNumbers,
 	invertNestedArr,
 	getRandomBlock,
+	getTwoDArr,
 } from "./utils.js";
 
 // CREATE TETRIS PEICE
@@ -94,12 +95,17 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 
 let board = (array) => {
 	let currentBoard = array;
+	let currentScore = 0;
 	let activeCells = [];
 	let setCells = [];
 	let numberOfPeices = 0;
 
 	let getBoard = () => {
 		return currentBoard;
+	};
+
+	let getScore = () => {
+		return currentScore;
 	};
 
 	let getNumberOfPeices = () => {
@@ -117,6 +123,15 @@ let board = (array) => {
 		activeCells = [];
 	};
 
+	let evaluateScore = () => {
+		let twoDBoard = getTwoDArr(currentBoard);
+		twoDBoard.forEach((arr) => {
+			if (arr.every((num) => num === 3)) {
+				currentScore++;
+			}
+		});
+	};
+
 	let updateBoard = () => {
 		currentBoard.forEach((cell, index) => {
 			if (activeCells.includes(index)) {
@@ -130,6 +145,7 @@ let board = (array) => {
 				currentBoard[index] = 1;
 			}
 		});
+		evaluateScore();
 	};
 
 	let analyzeCoords = (arrayOfCoords) => {
@@ -157,7 +173,7 @@ let board = (array) => {
 		updateBoard();
 	};
 
-	return { getBoard, analyzeCoords, getNumberOfPeices };
+	return { getBoard, analyzeCoords, getNumberOfPeices, getScore };
 };
 
 ////// DISPLAY //////
