@@ -123,11 +123,25 @@ let board = (array) => {
 		activeCells = [];
 	};
 
+	let resetBoardAfterScore = (arr, index) => {
+		let updatedArr = arr.map((num) => {
+			return num + index * 10;
+		});
+
+		return updatedArr;
+	};
+
 	let evaluateScore = () => {
-		let twoDBoard = getTwoDArr(currentBoard);
-		twoDBoard.forEach((arr) => {
-			if (arr.every((num) => num === 3)) {
-				currentScore++;
+		setCells.sort((a, b) => a - b);
+		setCells.forEach((num, index) => {
+			if (num % 10 === 0) {
+				let validateRange = setCells[index + 9];
+				if (validateRange === num + 9) {
+					setCells.splice(index, 10);
+					currentScore++;
+					setCells = setCells.map((cell, i) => cell + 10);
+					console.log(setCells);
+				}
 			}
 		});
 	};
@@ -145,31 +159,35 @@ let board = (array) => {
 				currentBoard[index] = 1;
 			}
 		});
-		evaluateScore();
 	};
 
 	let analyzeCoords = (arrayOfCoords) => {
 		clearActiveCells();
 		let coords = getCoords(arrayOfCoords);
 		let checkIfCoordsAtBottom = coords.some((coord) => coord > 189);
+		let coordsPlus10 = coords.map((coord) => coord + 10);
 		let checkIfCoordsInSetCells = coords.some((coord) =>
 			setCells.includes(coord)
 		);
+		let checkIfCurrentNearSet = coordsPlus10.some((coord) =>
+			setCells.includes(coord)
+		);
 
-		if (checkIfCoordsInSetCells) {
-			let newCoords = coords.map((coord) => coord - 10);
-			newCoords.forEach((coord) => setCells.push(coord));
+		if (checkIfCurrentNearSet) {
+			coords.forEach((coord) => setCells.push(coord));
+			evaluateScore();
+			numberOfPeices++;
+		}
+
+		if (!checkIfCurrentNearSet && checkIfCoordsAtBottom) {
+			coords.forEach((coord) => setCells.push(coord));
+			evaluateScore();
 			numberOfPeices++;
 		}
 
 		if (!checkIfCoordsInSetCells) {
 			coords.forEach((coord) => activeCells.push(coord));
 		}
-		if (!checkIfCoordsInSetCells && checkIfCoordsAtBottom) {
-			coords.forEach((coord) => setCells.push(coord));
-			numberOfPeices++;
-		}
-
 		updateBoard();
 	};
 
@@ -324,5 +342,7 @@ let playGame = () => {
 		}
 	});
 };
+
+playGame();
 
 export { createTetrisPiece, board };
