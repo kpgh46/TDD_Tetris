@@ -123,27 +123,71 @@ let board = (array) => {
 		activeCells = [];
 	};
 
-	let resetBoardAfterScore = (arr, index) => {
-		let updatedArr = arr.map((num) => {
-			return num + index * 10;
-		});
+	let getTwoDArr = (arr) => {
+		let currentTwo = [];
+		let numsIncluded = [];
 
-		return updatedArr;
-	};
-
-	let evaluateScore = () => {
-		setCells.sort((a, b) => a - b);
-		setCells.forEach((num, index) => {
-			if (num % 10 === 0) {
-				let validateRange = setCells[index + 9];
-				if (validateRange === num + 9) {
-					setCells.splice(index, 10);
-					currentScore++;
-					setCells = setCells.map((cell, i) => cell + 10);
-					console.log(setCells);
+		arr.sort((a, b) => a - b);
+		arr.forEach((num, index) => {
+			if (numsIncluded) {
+				if (!numsIncluded.includes(num)) {
+					let firstTwoDigists = Math.floor(num / 10);
+					let tempArr = arr.filter(
+						(digit) => Math.floor(digit / 10) === firstTwoDigists
+					);
+					currentTwo.push(tempArr);
+					numsIncluded = tempArr;
 				}
 			}
 		});
+		return currentTwo;
+	};
+
+	let evaluateRows = (arr) => {
+		let twoDSetCells = getTwoDArr(arr);
+		let arrWithTen = [];
+		let newTwoD = [];
+		let newArr = [];
+		let minNum = [];
+
+		// Check to see if length is 10
+		twoDSetCells.forEach((arr, index) => {
+			if (arr.length === 10) {
+				arrWithTen.push(arr);
+				minNum.push(arr[0]);
+				console.log(arrWithTen);
+			}
+		});
+
+		// if there are values, push onto new array that does not include the 10
+		if (arrWithTen.length > 0) {
+			let count = arrWithTen.length;
+			let min = Math.min(...minNum);
+			twoDSetCells.forEach((arr) => {
+				if (!arrWithTen.includes(arr)) {
+					newTwoD.push(arr);
+				}
+			});
+
+			newTwoD.forEach((arr) => {
+				arr.forEach((num, index) => {
+					newArr.push(num);
+				});
+			});
+			setCells = newArr;
+
+			setCells.forEach((num, index, arr) => {
+				if (num < 190 && num < min) {
+					setCells[index] = num + count * 10;
+				}
+			});
+			updateBoard();
+		}
+
+		// loop through twoDArr
+		// if arr has length of 10, push index to something
+		// after loop, loop through new index arr
+		// for each, splice out.  Then, add 10 to row index above min/max of new loop
 	};
 
 	let updateBoard = () => {
@@ -175,20 +219,20 @@ let board = (array) => {
 
 		if (checkIfCurrentNearSet) {
 			coords.forEach((coord) => setCells.push(coord));
-			evaluateScore();
+			evaluateRows(setCells);
 			numberOfPeices++;
 		}
 
 		if (!checkIfCurrentNearSet && checkIfCoordsAtBottom) {
 			coords.forEach((coord) => setCells.push(coord));
-			evaluateScore();
+			evaluateRows(setCells);
 			numberOfPeices++;
 		}
 
 		if (!checkIfCoordsInSetCells) {
 			coords.forEach((coord) => activeCells.push(coord));
+			updateBoard();
 		}
-		updateBoard();
 	};
 
 	return { getBoard, analyzeCoords, getNumberOfPeices, getScore };
@@ -251,7 +295,6 @@ let playGame = () => {
 			testPeice.moveDown();
 			testBoard.analyzeCoords(testPeice.getBlocks());
 			displayBoard(testBoard.getBoard());
-			console.log(testBoard.getBoard());
 
 			if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
 				currentNumberOfPeices = testBoard.getNumberOfPeices();

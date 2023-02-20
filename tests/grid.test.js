@@ -169,7 +169,6 @@ describe("logic for gameboard", () => {
 			[19, 9],
 		]);
 
-		console.log(tetrisBoard.getBoard().length);
 		expect(tetrisBoard.getBoard()[191]).toEqual(1);
 	});
 });
