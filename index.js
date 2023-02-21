@@ -90,6 +90,7 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 
 let board = (array) => {
 	let currentBoard = array;
+	let currentScore = 0;
 
 	let getBoard = () => {
 		return currentBoard;
@@ -107,9 +108,41 @@ let board = (array) => {
 
 	let updateBoard = () => {};
 
+	let checkIfAtBottom = (arr) => {
+		let checkIfAtBottom = arr.some((coord) => {
+			return coord[0] == 19;
+		});
+
+		return checkIfAtBottom;
+	};
+
+	let checkIfAboutToHitOtherCells = (arr) => {
+		let checkIfAboutToHitOtherCells = arr.some((coord) => {
+			let coordPlusTenIndex = coord[0] + 10;
+			let nextPeiceOnBoard = currentBoard[coordPlusTenIndex];
+
+			return nextPeiceOnBoard === 3;
+		});
+
+		return checkIfAboutToHitOtherCells;
+	};
+
 	let analyzeCoords = (arrayOfCoords) => {
 		arrayOfCoords.forEach((coord) => {
-			currentBoard[coord[0]][coord[1]] = 2;
+			if (
+				checkIfAtBottom(arrayOfCoords) ||
+				checkIfAboutToHitOtherCells(arrayOfCoords)
+			) {
+				currentBoard[coord[0]][coord[1]] = 3;
+				return;
+			}
+
+			if (!checkIfAboutToHitOtherCells(arrayOfCoords)) {
+				currentBoard[coord[0]][coord[1]] = 2;
+				return;
+			} else {
+				currentBoard[coord[0]][coord[1]] = 1;
+			}
 		});
 	};
 

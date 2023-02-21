@@ -87,6 +87,7 @@ describe("logic for gameboard", () => {
 	let tetrisBoard;
 	let blankBoard;
 	let tetrisPeice;
+	let secondTetrisPeice;
 
 	beforeEach(() => {
 		blankBoard = generateTwoDArray(19);
@@ -105,8 +106,25 @@ describe("logic for gameboard", () => {
 			[0, 0],
 			[-1, -1],
 		];
+
+		const tBlockStarting = [
+			[1, 2],
+			[1, 3],
+			[1, 4],
+			[0, 3],
+		];
+
+		const tBlockRotation = [
+			[0, 0],
+			[0, 0],
+			[0, 0],
+			[2, 0],
+		];
+
 		tetrisPeice = createTetrisPiece(startingPosition, rotationValues);
+		secondTetrisPeice = createTetrisPiece(tBlockStarting, tBlockRotation);
 	});
+
 	test("board intakes array parameter", () => {
 		expect(tetrisBoard.getBoard().length).toBeGreaterThan(0);
 	});
@@ -123,41 +141,73 @@ describe("logic for gameboard", () => {
 			[3, 3],
 		]);
 
-		expect(tetrisBoard.getBoard()[0][3]).toBe(2);
-		expect(tetrisBoard.getBoard()[1][3]).toBe(2);
+		expect(tetrisBoard.getBoard()[0][3]).toEqual(2);
+		expect(tetrisBoard.getBoard()[1][3]).toEqual(2);
 	});
 
 	test("update board when tetris Peice moves downward twice", () => {
 		tetrisPeice.moveDown();
 		tetrisPeice.moveDown();
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
 
-		expect(tetrisBoard.getBoard()[2][3]).toBe[2];
-		expect(tetrisBoard.getBoard()[3][3]).toBe[2];
+		expect(tetrisBoard.getBoard()[2][3]).toEqual(2);
+		expect(tetrisBoard.getBoard()[3][3]).toEqual(2);
 	});
 
-	test("board coordinates halt at 19 when excessive downward movements", () => {
-		Array.from(Array(25)).forEach((num) => tetrisPeice.moveDown());
+	test("board coordinates halt at 19 when excessive downward movements and sets with a 3", () => {
+		Array.from(Array(25)).forEach((num) => {
+			tetrisPeice.moveDown();
+			tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		});
 
-		expect(tetrisBoard.getBoard()[19][3]).toBe[2];
+		expect(tetrisBoard.getBoard()[19][3]).toEqual(3);
 	});
 
 	test("tetris peice moves right", () => {
 		tetrisPeice.moveRight();
 
-		expect(tetrisBoard.getBoard()[0][4]).toBe[2];
-		expect(tetrisBoard.getBoard()[1][4]).toBe[2];
-		expect(tetrisBoard.getBoard()[0][3]).toBe[1];
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		expect(tetrisBoard.getBoard()[0][4]).toEqual(2);
+		expect(tetrisBoard.getBoard()[1][4]).toEqual(2);
+		// expect(tetrisBoard.getBoard()[0][3]).toEqual(1);
 	});
 
 	test("tetris peice moves left", () => {
 		tetrisPeice.moveLeft();
 
-		expect(tetrisBoard.getBoard()[0][2]).toBe[2];
-		expect(tetrisBoard.getBoard()[1][2]).toBe[2];
-		expect(tetrisBoard.getBoard()[0][3]).toBe[1];
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+
+		expect(tetrisBoard.getBoard()[0][2]).toEqual(2);
+		expect(tetrisBoard.getBoard()[1][2]).toEqual(2);
 	});
 
-	test("board score updates if entire row is filled with tetris peices ", () => {});
+	test("tetris peice rotates", () => {
+		tetrisPeice.rotate();
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
 
-	test("row resets to 1's if row is full and score is updated", () => {});
+		expect(tetrisBoard.getBoard()[2][5]).toEqual(2);
+	});
+
+	test("tetris peice rotates twice back to original position", () => {
+		tetrisPeice.rotate();
+		tetrisPeice.rotate();
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+
+		expect(tetrisBoard.getBoard()[0][3]).toEqual(2);
+	});
+
+	test("multiple coordinates placed onto board", () => {
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisPeice.moveDown();
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+
+		secondTetrisPeice.moveDown();
+		tetrisBoard.analyzeCoords(secondTetrisPeice.getBlocks());
+
+		expect(tetrisBoard.getBoard()[5][3]).toEqual(2);
+		expect(tetrisBoard.getBoard()[2][2]).toEqual(2);
+	});
 });
