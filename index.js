@@ -110,7 +110,6 @@ let board = (array) => {
 
 	let checkIfAtBottom = (arr) => {
 		let checkIfAtBottom = arr.some((coord) => {
-			console.log(coord[0]);
 			return coord[0] === 19;
 		});
 
@@ -120,7 +119,8 @@ let board = (array) => {
 	let checkIfAboutToHitOtherCells = (arr) => {
 		let checkIfAboutToHitOtherCells = arr.some((coord) => {
 			let coordPlusTenIndex = coord[0] + 1;
-			let nextPeiceOnBoard = currentBoard[coordPlusTenIndex][coord[1]];
+			let coordTwo = coord[1];
+			let nextPeiceOnBoard = currentBoard[coordPlusTenIndex][coordTwo];
 
 			return nextPeiceOnBoard === 3;
 		});
@@ -138,6 +138,16 @@ let board = (array) => {
 		});
 	};
 
+	let checkIfRowIsFull = () => {
+		// let indexOfFullRow = [];
+		currentBoard.forEach((arr, index) => {
+			let checkAll = arr.every((num) => num === 3);
+			if (checkAll) {
+				currentScore++;
+			}
+		});
+	};
+
 	let analyzeCoords = (arrayOfCoords) => {
 		clearActiveCells();
 		arrayOfCoords.forEach((coord) => {
@@ -146,6 +156,7 @@ let board = (array) => {
 				checkIfAboutToHitOtherCells(arrayOfCoords)
 			) {
 				currentBoard[coord[0]][coord[1]] = 3;
+				checkIfRowIsFull();
 				return;
 			}
 

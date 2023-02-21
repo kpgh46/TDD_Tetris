@@ -197,6 +197,24 @@ describe("logic for gameboard", () => {
 		expect(tetrisBoard.getBoard()[0][3]).toEqual(2);
 	});
 
+	test("score is increased if row is filled", () => {
+		tetrisBoard.analyzeCoords([
+			[19, 0],
+			[19, 1],
+			[19, 2],
+			[19, 3],
+			[19, 4],
+			[19, 5],
+			[19, 5],
+			[19, 6],
+			[19, 7],
+			[19, 8],
+			[19, 9],
+		]);
+
+		expect(tetrisBoard.getScore()).toEqual(1);
+	});
+
 	// test("multiple coordinates placed onto board", () => {
 	// 	tetrisPeice.moveDown();
 	// 	tetrisPeice.moveDown();
