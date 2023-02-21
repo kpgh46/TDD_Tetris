@@ -110,7 +110,7 @@ let board = (array) => {
 
 	let checkIfAtBottom = (arr) => {
 		let checkIfAtBottom = arr.some((coord) => {
-			return coord[0] == 19;
+			return coord[0] === 19;
 		});
 
 		return checkIfAtBottom;
@@ -127,7 +127,18 @@ let board = (array) => {
 		return checkIfAboutToHitOtherCells;
 	};
 
+	let clearActiveCells = () => {
+		currentBoard.forEach((arr, index) => {
+			arr.forEach((num, i) => {
+				if (num === 2) {
+					currentBoard[index][i] = [1];
+				}
+			});
+		});
+	};
+
 	let analyzeCoords = (arrayOfCoords) => {
+		clearActiveCells();
 		arrayOfCoords.forEach((coord) => {
 			if (
 				checkIfAtBottom(arrayOfCoords) ||
@@ -141,7 +152,17 @@ let board = (array) => {
 				currentBoard[coord[0]][coord[1]] = 2;
 				return;
 			} else {
-				currentBoard[coord[0]][coord[1]] = 1;
+				currentBoard.forEach((arr, index) => {
+					arr.forEach((num, i) => {
+						if (
+							currentBoard[index][i] !== 2 ||
+							currentBoard[index][i] !== 3
+						) {
+							currentBoard[index][i] = [1];
+						}
+					});
+				});
+				return;
 			}
 		});
 	};
@@ -154,17 +175,19 @@ let displayBoard = (b) => {
 	let grid = document.querySelector("#grid");
 	grid.innerHTML = "";
 
-	b.forEach((cell, index) => {
-		let cellDiv = document.createElement("div");
-		cellDiv.classList.add("cell");
-		cellDiv.textContent = index;
-		if (cell === 2) {
-			cellDiv.classList.add("active");
-		}
-		if (cell === 3) {
-			cellDiv.classList.add("set");
-		}
-		grid.appendChild(cellDiv);
+	b.forEach((arr, index) => {
+		arr.forEach((cell, i) => {
+			let cellDiv = document.createElement("div");
+			cellDiv.classList.add("cell");
+			cellDiv.textContent = index;
+			if (cell === 2) {
+				cellDiv.classList.add("active");
+			}
+			if (cell === 3) {
+				cellDiv.classList.add("set");
+			}
+			grid.appendChild(cellDiv);
+		});
 	});
 };
 
@@ -179,6 +202,33 @@ let generatePeice = () => {
 	let randomBlock = getRandomBlock();
 	return createTetrisPiece(randomBlock[0], randomBlock[1]);
 };
+
+// let tetrisTestPeice = generatePeice();
+// tetrisTestPeice.moveDown();
+// let newTestBoard = board(generateTwoDArray(19));
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.rotate();
+// newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
+// console.log(newTestBoard.getBoard());
+// displayBoard(newTestBoard.getBoard());
 
 // let playGame = () => {
 // 	// let testBoard = board(newBoardArray);
