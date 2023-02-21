@@ -1,4 +1,5 @@
-import { createTetrisPiece, board, generatePeice } from "../index";
+import { createTetrisPiece, board } from "../index";
+import { generateTwoDArray } from "../utils";
 
 describe("create tetris blocks", () => {
 	let tetrisBlock;
@@ -57,7 +58,6 @@ describe("create tetris blocks", () => {
 	});
 
 	test("tetris peice moves left", () => {
-		console.log(tetrisBlock.getBlocks());
 		tetrisBlock.moveLeft();
 		expect(tetrisBlock.getBlocks()[0][1]).toEqual(2);
 		expect(tetrisBlock.getBlocks()[1][1]).toEqual(2);
@@ -85,12 +85,13 @@ describe("create tetris blocks", () => {
 
 describe("logic for gameboard", () => {
 	let tetrisBoard;
-	let newBoardArray;
+	let blankBoard;
 	let tetrisPeice;
 
 	beforeEach(() => {
-		newBoardArray = Array.from(Array(200)).fill(1);
-		tetrisBoard = board(newBoardArray);
+		blankBoard = generateTwoDArray(19);
+		tetrisBoard = board(blankBoard);
+
 		const startingPosition = [
 			[0, 3],
 			[1, 3],
@@ -111,64 +112,52 @@ describe("logic for gameboard", () => {
 	});
 
 	test("array parameter equals 200", () => {
-		expect(tetrisBoard.getBoard().length).toEqual(200);
+		expect(tetrisBoard.getBoard().length).toEqual(20);
 	});
 
 	test("update board with coordinates from tetris peice", () => {
-		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-		expect(tetrisBoard.getBoard()[3]).toEqual(2);
-		expect(tetrisBoard.getBoard()[13]).toEqual(2);
-		expect(tetrisBoard.getBoard()[15]).toEqual(1);
+		tetrisBoard.analyzeCoords([
+			[0, 3],
+			[1, 3],
+			[2, 3],
+			[3, 3],
+		]);
+
+		expect(tetrisBoard.getBoard()[0][3]).toBe(2);
+		expect(tetrisBoard.getBoard()[1][3]).toBe(2);
 	});
 
 	test("update board when tetris Peice moves downward twice", () => {
 		tetrisPeice.moveDown();
 		tetrisPeice.moveDown();
-		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-		expect(tetrisBoard.getBoard()[53]).toEqual(2);
-		expect(tetrisBoard.getBoard()[3]).toEqual(1);
+
+		expect(tetrisBoard.getBoard()[2][3]).toBe[2];
+		expect(tetrisBoard.getBoard()[3][3]).toBe[2];
 	});
 
-	test("board coordinates are 'set' when tetris peices moves to bottom of board", () => {
-		Array.from(Array(100)).forEach((num) => tetrisPeice.moveDown());
+	test("board coordinates halt at 19 when excessive downward movements", () => {
+		Array.from(Array(25)).forEach((num) => tetrisPeice.moveDown());
 
-		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-		expect(tetrisBoard.getBoard()[193]).toEqual(3);
+		expect(tetrisBoard.getBoard()[19][3]).toBe[2];
 	});
 
-	test("board score updates if entire row is filled with tetris peices ", () => {
-		console.log(tetrisBoard.getScore());
-		tetrisBoard.analyzeCoords([
-			[19, 0],
-			[19, 1],
-			[19, 2],
-			[19, 3],
-			[19, 4],
-			[19, 5],
-			[19, 6],
-			[19, 7],
-			[19, 8],
-			[19, 9],
-		]);
+	test("tetris peice moves right", () => {
+		tetrisPeice.moveRight();
 
-		expect(tetrisBoard.getScore()).toEqual(1);
+		expect(tetrisBoard.getBoard()[0][4]).toBe[2];
+		expect(tetrisBoard.getBoard()[1][4]).toBe[2];
+		expect(tetrisBoard.getBoard()[0][3]).toBe[1];
 	});
 
-	test("row resets to 1's if row is full and score is updated", () => {
-		console.log(tetrisBoard.getBoard());
-		tetrisBoard.analyzeCoords([
-			[19, 0],
-			[19, 1],
-			[19, 2],
-			[19, 3],
-			[19, 4],
-			[19, 5],
-			[19, 6],
-			[19, 7],
-			[19, 8],
-			[19, 9],
-		]);
+	test("tetris peice moves left", () => {
+		tetrisPeice.moveLeft();
 
-		expect(tetrisBoard.getBoard()[191]).toEqual(1);
+		expect(tetrisBoard.getBoard()[0][2]).toBe[2];
+		expect(tetrisBoard.getBoard()[1][2]).toBe[2];
+		expect(tetrisBoard.getBoard()[0][3]).toBe[1];
 	});
+
+	test("board score updates if entire row is filled with tetris peices ", () => {});
+
+	test("row resets to 1's if row is full and score is updated", () => {});
 });

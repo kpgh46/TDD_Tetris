@@ -4,6 +4,16 @@ let getLastNumber = (num) => {
 	let getLast = stringToArr[stringToArr.length - 1];
 	return parseInt(getLast);
 };
+let generateTwoDArray = (numRows) => {
+	let blankTwoDArr = [];
+
+	for (let i = 0; i <= numRows; i++) {
+		let row = [[1], [1], [1], [1], [1], [1], [1], [1], [1], [1]];
+		blankTwoDArr.push(row);
+	}
+
+	return blankTwoDArr;
+};
 
 let joinArrayOfNumbers = (arr) => {
 	let stringifyArray = arr.map((num) => {
@@ -39,19 +49,6 @@ let invertNestedArr = (arr) => {
 		resultArr.push(invertNums(num));
 	});
 	return resultArr;
-};
-
-let getTwoDArr = (arr) => {
-	let twoDArr = [];
-	arr.forEach((num, index) => {
-		if (index % 10 === 0) {
-			let end = index + 9;
-			let tempArr = arr.slice(index, end);
-			twoDArr.push(tempArr);
-		}
-	});
-
-	return twoDArr;
 };
 
 let getRandomBlock = () => {
@@ -120,5 +117,5 @@ export {
 	returnRandomNum,
 	invertNestedArr,
 	getRandomBlock,
-	getTwoDArr,
+	generateTwoDArray,
 };
