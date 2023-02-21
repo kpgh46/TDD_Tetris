@@ -110,6 +110,7 @@ let board = (array) => {
 
 	let checkIfAtBottom = (arr) => {
 		let checkIfAtBottom = arr.some((coord) => {
+			console.log(coord[0]);
 			return coord[0] === 19;
 		});
 
@@ -118,8 +119,8 @@ let board = (array) => {
 
 	let checkIfAboutToHitOtherCells = (arr) => {
 		let checkIfAboutToHitOtherCells = arr.some((coord) => {
-			let coordPlusTenIndex = coord[0] + 10;
-			let nextPeiceOnBoard = currentBoard[coordPlusTenIndex];
+			let coordPlusTenIndex = coord[0] + 1;
+			let nextPeiceOnBoard = currentBoard[coordPlusTenIndex][coord[1]];
 
 			return nextPeiceOnBoard === 3;
 		});
@@ -220,14 +221,32 @@ let generatePeice = () => {
 // tetrisTestPeice.moveDown();
 // tetrisTestPeice.moveDown();
 // tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
 // tetrisTestPeice.rotate();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+
 // newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
 // console.log(newTestBoard.getBoard());
+// displayBoard(newTestBoard.getBoard());
+// tetrisTestPeice = generatePeice();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+
+// tetrisTestPeice.moveDown();
+// tetrisTestPeice.moveDown();
+
+// newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
 // displayBoard(newTestBoard.getBoard());
 
 // let playGame = () => {
