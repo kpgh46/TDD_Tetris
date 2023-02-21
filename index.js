@@ -138,14 +138,30 @@ let board = (array) => {
 		});
 	};
 
+	let moveRowsDownward = (arrOfIndexes) => {
+		arrOfIndexes.forEach((arr) => {
+			let blankArr = [[1], [1], [1], [1], [1], [1], [1], [1], [1], [1]];
+			currentBoard.unshift(blankArr);
+		});
+	};
+
+	let removeFullRows = (arrOfIndexes) => {
+		currentBoard = currentBoard.filter((arrs, indexes) => {
+			return !arrOfIndexes.includes(indexes);
+		});
+	};
+
 	let checkIfRowIsFull = () => {
-		// let indexOfFullRow = [];
+		let indexOfFullRow = [];
 		currentBoard.forEach((arr, index) => {
 			let checkAll = arr.every((num) => num === 3);
 			if (checkAll) {
 				currentScore++;
+				indexOfFullRow.push(index);
 			}
 		});
+		removeFullRows(indexOfFullRow);
+		moveRowsDownward(indexOfFullRow);
 	};
 
 	let analyzeCoords = (arrayOfCoords) => {
@@ -235,7 +251,7 @@ let generatePeice = () => {
 // tetrisTestPeice.rotate();
 // tetrisTestPeice.moveDown();
 // tetrisTestPeice.moveDown();
-
+//
 // newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
 // console.log(newTestBoard.getBoard());
 // displayBoard(newTestBoard.getBoard());
