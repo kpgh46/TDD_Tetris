@@ -228,7 +228,7 @@ let displayBoard = (b) => {
 };
 
 ////// TEST AREA ///////
-let newBoardArray = Array.from(Array(200)).fill(1);
+
 let downbtn = document.getElementById("down");
 let rotatebtn = document.getElementById("rotate");
 let leftbtn = document.getElementById("left");
@@ -253,6 +253,51 @@ let playGame = () => {
 		let event = e.key;
 		if (event === "ArrowDown") {
 			tetrisTestPeice.moveDown();
+			newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
+			displayBoard(newTestBoard.getBoard());
+
+			if (newTestBoard.getNumberOfPeices() > currentNumberOfPeices) {
+				currentNumberOfPeices = newTestBoard.getNumberOfPeices();
+				console.log("board has more now");
+				tetrisTestPeice = generatePeice();
+			}
+		}
+	});
+
+	document.addEventListener("keydown", (e) => {
+		let event = e.key;
+		if (event === "ArrowUp") {
+			tetrisTestPeice.rotate();
+			newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
+			displayBoard(newTestBoard.getBoard());
+
+			if (newTestBoard.getNumberOfPeices() > currentNumberOfPeices) {
+				currentNumberOfPeices = newTestBoard.getNumberOfPeices();
+				console.log("board has more now");
+				tetrisTestPeice = generatePeice();
+			}
+		}
+	});
+
+	document.addEventListener("keydown", (e) => {
+		let event = e.key;
+		if (event === "ArrowRight") {
+			tetrisTestPeice.moveRight();
+			newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
+			displayBoard(newTestBoard.getBoard());
+
+			if (newTestBoard.getNumberOfPeices() > currentNumberOfPeices) {
+				currentNumberOfPeices = newTestBoard.getNumberOfPeices();
+				console.log("board has more now");
+				tetrisTestPeice = generatePeice();
+			}
+		}
+	});
+
+	document.addEventListener("keydown", (e) => {
+		let event = e.key;
+		if (event === "ArrowLeft") {
+			tetrisTestPeice.moveLeft();
 			newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
 			displayBoard(newTestBoard.getBoard());
 

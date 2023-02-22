@@ -106,7 +106,7 @@ let getRandomBlock = () => {
 		],
 	];
 
-	let arrOfPositions = [lineBlock, lineBlock];
+	let arrOfPositions = [lineBlock, squareBlock];
 
 	return arrOfPositions[returnRandomNum()];
 };
