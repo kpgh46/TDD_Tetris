@@ -23,7 +23,7 @@ let joinArrayOfNumbers = (arr) => {
 };
 
 let returnRandomNum = () => {
-	return Math.floor(Math.random() * 2);
+	return Math.floor(Math.random() * 4);
 };
 
 let invertNums = (arr) => {
@@ -106,7 +106,7 @@ let getRandomBlock = () => {
 		],
 	];
 
-	let arrOfPositions = [lineBlock, squareBlock];
+	let arrOfPositions = [lineBlock, squareBlock, teeBlock, zeeBlock];
 
 	return arrOfPositions[returnRandomNum()];
 };
