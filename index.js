@@ -248,6 +248,12 @@ let playGame = () => {
 	newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
 	displayBoard(newTestBoard.getBoard());
 
+	setInterval(() => {
+		tetrisTestPeice.moveDown();
+		newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
+		displayBoard(newTestBoard.getBoard());
+	}, 750);
+
 	///// CLICK EVENTS //////
 
 	document.addEventListener("keydown", (e) => {
