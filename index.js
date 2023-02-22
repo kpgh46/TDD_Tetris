@@ -91,6 +91,7 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 let board = (array) => {
 	let currentBoard = array;
 	let currentScore = 0;
+	let numberOfPeices = 0;
 
 	let getBoard = () => {
 		return currentBoard;
@@ -173,6 +174,7 @@ let board = (array) => {
 			) {
 				currentBoard[coord[0]][coord[1]] = 3;
 				checkIfRowIsFull();
+				numberOfPeices++;
 				return;
 			}
 
@@ -195,7 +197,13 @@ let board = (array) => {
 		});
 	};
 
-	return { getBoard, analyzeCoords, getNumberOfPeices, getScore };
+	return {
+		getBoard,
+		analyzeCoords,
+		getNumberOfPeices,
+		getScore,
+		getNumberOfPeices,
+	};
 };
 
 ////// DISPLAY //////
@@ -231,76 +239,32 @@ let generatePeice = () => {
 	return createTetrisPiece(randomBlock[0], randomBlock[1]);
 };
 
-// let tetrisTestPeice = generatePeice();
-// tetrisTestPeice.moveDown();
-// let newTestBoard = board(generateTwoDArray(19));
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.rotate();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-//
-// newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
-// console.log(newTestBoard.getBoard());
-// displayBoard(newTestBoard.getBoard());
-// tetrisTestPeice = generatePeice();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
+let playGame = () => {
+	let tetrisTestPeice = generatePeice();
+	let newTestBoard = board(generateTwoDArray(19));
+	let currentNumberOfPeices = newTestBoard.getNumberOfPeices();
 
-// tetrisTestPeice.moveDown();
-// tetrisTestPeice.moveDown();
+	newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
+	displayBoard(newTestBoard.getBoard());
 
-// newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
-// displayBoard(newTestBoard.getBoard());
+	///// CLICK EVENTS //////
 
-// let playGame = () => {
-// 	// let testBoard = board(newBoardArray);
-// 	// let currentNumberOfPeices = testBoard.getNumberOfPeices();
-// 	// let testPeice = generatePeice();
-// 	// testBoard.analyzeCoords(testPeice.getBlocks());
-// 	// displayBoard(testBoard.getBoard());
+	document.addEventListener("keydown", (e) => {
+		let event = e.key;
+		if (event === "ArrowDown") {
+			tetrisTestPeice.moveDown();
+			newTestBoard.analyzeCoords(tetrisTestPeice.getBlocks());
+			displayBoard(newTestBoard.getBoard());
 
-// 	///// CLICK EVENTS //////
+			if (newTestBoard.getNumberOfPeices() > currentNumberOfPeices) {
+				currentNumberOfPeices = newTestBoard.getNumberOfPeices();
+				console.log("board has more now");
+				tetrisTestPeice = generatePeice();
+			}
+		}
+	});
+};
 
-// 	document.addEventListener("keydown", (e) => {
-// 		let event = e.key;
-// 		if (event === "ArrowDown") {
-// 			testPeice.moveDown();
-// 			testBoard.analyzeCoords(testPeice.getBlocks());
-// 			displayBoard(testBoard.getBoard());
-
-// 			if (testBoard.getNumberOfPeices() > currentNumberOfPeices) {
-// 				currentNumberOfPeices = testBoard.getNumberOfPeices();
-// 				console.log("board has more now");
-// 				testPeice = generatePeice();
-// 			}
-// 		}
-// 	});
-// };
-
-// playGame();
+playGame();
 
 export { createTetrisPiece, board };
