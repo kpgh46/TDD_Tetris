@@ -233,6 +233,7 @@ let downbtn = document.getElementById("down");
 let rotatebtn = document.getElementById("rotate");
 let leftbtn = document.getElementById("left");
 let rightbtn = document.getElementById("right");
+let score = document.getElementById("score");
 
 let generatePeice = () => {
 	let randomBlock = getRandomBlock();
@@ -260,6 +261,7 @@ let playGame = () => {
 				currentNumberOfPeices = newTestBoard.getNumberOfPeices();
 				console.log("board has more now");
 				tetrisTestPeice = generatePeice();
+				score.textContent = newTestBoard.getScore();
 			}
 		}
 	});
