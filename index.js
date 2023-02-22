@@ -215,7 +215,7 @@ let displayBoard = (b) => {
 		arr.forEach((cell, i) => {
 			let cellDiv = document.createElement("div");
 			cellDiv.classList.add("cell");
-			cellDiv.textContent = index;
+
 			if (cell === 2) {
 				cellDiv.classList.add("active");
 			}
@@ -245,16 +245,16 @@ let playGame = () => {
 	displayBoard(tetrisBoard.getBoard());
 
 	// Tetris Peice auto movement
-	setInterval(() => {
-		tetrisPeice.moveDown();
-		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-		displayBoard(tetrisBoard.getBoard());
-		if (tetrisBoard.getNumberOfPeices() > currentNumberOfPeices) {
-			currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
-			tetrisPeice = generatePeice();
-			score.textContent = tetrisBoard.getScore();
-		}
-	}, 750);
+	// setInterval(() => {
+	// 	tetrisPeice.moveDown();
+	// 	tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+	// 	displayBoard(tetrisBoard.getBoard());
+	// 	if (tetrisBoard.getNumberOfPeices() > currentNumberOfPeices) {
+	// 		currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
+	// 		tetrisPeice = generatePeice();
+	// 		score.textContent = tetrisBoard.getScore();
+	// 	}
+	// }, 750);
 
 	let checkIfPeiceSet = () => {
 		if (tetrisBoard.getNumberOfPeices() > currentNumberOfPeices) {
