@@ -229,6 +229,7 @@ let displayBoard = (b) => {
 
 let score = document.getElementById("score");
 let start = document.getElementById("start");
+let points = document.getElementById("points");
 
 let generatePeice = () => {
 	let randomBlock = getRandomBlock();
@@ -242,6 +243,7 @@ let playGame = () => {
 	let currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
 	let tetrisBoardScore = 0;
 	let interval = 750;
+	let currentPoints = 0;
 	tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
 	displayBoard(tetrisBoard.getBoard());
 
@@ -279,6 +281,8 @@ let playGame = () => {
 		let event = e.key;
 		if (event === "ArrowDown") {
 			tetrisPeice.moveDown();
+			currentPoints += 100;
+			points.textContent = currentPoints;
 		}
 
 		if (event === "ArrowUp") {
