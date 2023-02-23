@@ -1,9 +1,3 @@
-let getLastNumber = (num) => {
-	let numToString = num.toString();
-	let stringToArr = Array.from(numToString);
-	let getLast = stringToArr[stringToArr.length - 1];
-	return parseInt(getLast);
-};
 let generateTwoDArray = (numRows) => {
 	let blankTwoDArr = [];
 
@@ -13,13 +7,6 @@ let generateTwoDArray = (numRows) => {
 	}
 
 	return blankTwoDArr;
-};
-
-let joinArrayOfNumbers = (arr) => {
-	let stringifyArray = arr.map((num) => {
-		return num.toString();
-	});
-	return parseInt(stringifyArray.join(""));
 };
 
 let returnRandomNum = () => {
@@ -139,8 +126,6 @@ let getRandomBlock = () => {
 };
 
 export {
-	getLastNumber,
-	joinArrayOfNumbers,
 	returnRandomNum,
 	invertNestedArr,
 	getRandomBlock,
