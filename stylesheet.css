@@ -1,13 +1,23 @@
+@import url('https://fonts.cdnfonts.com/css/tetris');
+
 #container{
     display: flex;
     justify-content: center;
-    border: 1px solid black;
+    
+}
+
+#header{
+    font-family: 'Tetris', sans-serif;
+    font-size: 50px;
+    color: blue;
+    margin: 5px;
 }
 
 #grid{
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid red;
+    border: 1px solid black;
+    border-radius: 5px;
     width: 360px;
     height:721px;
 }
@@ -28,4 +38,20 @@
 
 .set{
     background-color: red;
+}
+
+#start{
+    font-family: 'Tetris', sans-serif;
+    font-size: 30px;
+    height: auto;
+    width: auto;
+    margin-left: 15px;
+    margin-top: 30px;
+    color:blue;
+}
+
+#tracking{
+    font-family: 'Tetris', sans-serif;
+    font-size: 25px;
+    margin-left: 15px;
 }
