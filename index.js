@@ -26,7 +26,10 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 	let rotate = () => {
 		if (!rotated) {
 			let checkEvery = currentPosition.every((arr, index) => {
-				return arr[1] + rotationValues[index][1] >= 0;
+				return (
+					arr[1] + rotationValues[index][1] >= 0 &&
+					arr[1] + rotationValues[index][1] <= 9
+				);
 			});
 			if (checkEvery) {
 				updateRotatedPositions(rotationValues);
@@ -36,7 +39,10 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 		}
 		if (rotated) {
 			let checkEvery = currentPosition.every((arr, index) => {
-				return arr[1] + invertedRotationValues[index][1] >= 0;
+				return (
+					arr[1] + invertedRotationValues[index][1] >= 0 &&
+					arr[1] + rotationValues[index][1] <= 9
+				);
 			});
 			if (checkEvery) {
 				updateRotatedPositions(invertedRotationValues);
