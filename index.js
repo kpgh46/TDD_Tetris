@@ -227,9 +227,8 @@ let displayBoard = (b) => {
 	});
 };
 
-////// TEST AREA ///////
-
 let score = document.getElementById("score");
+let start = document.getElementById("start");
 
 let generatePeice = () => {
 	let randomBlock = getRandomBlock();
@@ -241,29 +240,33 @@ let playGame = () => {
 	let tetrisPeice = generatePeice();
 	let tetrisBoard = board(generateTwoDArray(19));
 	let currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
+	let tetrisBoardScore = 0;
+	let interval = 750;
 	tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
 	displayBoard(tetrisBoard.getBoard());
 
-	// Tetris Peice auto movement
-	// setInterval(() => {
-	// 	tetrisPeice.moveDown();
-	// 	tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-	// 	displayBoard(tetrisBoard.getBoard());
-	// 	if (tetrisBoard.getNumberOfPeices() > currentNumberOfPeices) {
-	// 		currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
-	// 		tetrisPeice = generatePeice();
-	// 		score.textContent = tetrisBoard.getScore();
-	// 	}
-	// }, 750);
-
 	let checkIfPeiceSet = () => {
 		if (tetrisBoard.getNumberOfPeices() > currentNumberOfPeices) {
+			tetrisBoardScore = tetrisBoard.getScore();
 			currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
-			console.log("board has more now");
 			tetrisPeice = generatePeice();
-			score.textContent = tetrisBoard.getScore();
+			score.textContent = tetrisBoardScore;
+			if (tetrisBoardScore > 1) {
+				interval = 100;
+			}
 		}
 	};
+
+	let myFunction = () => {
+		tetrisPeice.moveDown();
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		displayBoard(tetrisBoard.getBoard());
+		checkIfPeiceSet();
+
+		setTimeout(myFunction, interval);
+	};
+
+	setTimeout(myFunction, interval);
 
 	let update = () => {
 		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
@@ -293,6 +296,8 @@ let playGame = () => {
 	});
 };
 
-playGame();
+start.addEventListener("click", playGame);
+
+// playGame();
 
 export { createTetrisPiece, board };
