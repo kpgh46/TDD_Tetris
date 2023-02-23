@@ -105,10 +105,6 @@ let board = (array) => {
 		return numberOfPeices;
 	};
 
-	let evaluateRows = (arr) => {};
-
-	let updateBoard = () => {};
-
 	let checkIfAtBottom = (arr) => {
 		let checkIfAtBottom = arr.some((coord) => {
 			return coord[0] === 19;
@@ -242,7 +238,7 @@ let playGame = () => {
 	let tetrisBoard = board(generateTwoDArray(19));
 	let currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
 	let tetrisBoardScore = 0;
-	let interval = 750;
+	let interval = 1000;
 	let currentPoints = 0;
 	tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
 	displayBoard(tetrisBoard.getBoard());
@@ -253,22 +249,39 @@ let playGame = () => {
 			currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
 			tetrisPeice = generatePeice();
 			score.textContent = tetrisBoardScore;
-			if (tetrisBoardScore > 1) {
-				interval = 100;
+
+			switch (true) {
+				case tetrisBoardScore > 15:
+					interval = 125;
+					break;
+				case tetrisBoardScore > 10:
+					interval = 250;
+					break;
+				case tetrisBoardScore > 5:
+					interval = 500;
+					break;
+				case tetrisBoardScore > 3:
+					interval = 750;
+					break;
+			}
+
+			if (tetrisBoardScore > 3) {
+				interval = 750;
+				return;
 			}
 		}
 	};
 
-	let myFunction = () => {
+	let moveTetrisPeiceDown = () => {
 		tetrisPeice.moveDown();
 		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
 		displayBoard(tetrisBoard.getBoard());
 		checkIfPeiceSet();
 
-		setTimeout(myFunction, interval);
+		setTimeout(moveTetrisPeiceDown, interval);
 	};
 
-	setTimeout(myFunction, interval);
+	setTimeout(moveTetrisPeiceDown, interval);
 
 	let update = () => {
 		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());

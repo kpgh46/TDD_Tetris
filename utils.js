@@ -51,6 +51,28 @@ let invertNestedArr = (arr) => {
 	return resultArr;
 };
 
+let changeInterval = (score, variable) => {
+	if (score > 15) {
+		variable = 125;
+		return;
+	}
+
+	if (score > 10) {
+		variable = 250;
+		return;
+	}
+
+	if (score > 6) {
+		variable = 500;
+		return;
+	}
+
+	if (score > 1) {
+		variable = 250;
+		return;
+	}
+};
+
 let getRandomBlock = () => {
 	const lineBlock = [
 		[
@@ -123,4 +145,5 @@ export {
 	invertNestedArr,
 	getRandomBlock,
 	generateTwoDArray,
+	changeInterval,
 };
