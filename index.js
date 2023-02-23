@@ -23,28 +23,27 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 		});
 	};
 
+	let checkIfNearSide = (rotationValues) => {
+		let checkEvery = currentPosition.every((arr, index) => {
+			return (
+				arr[1] + rotationValues[index][1] >= 0 &&
+				arr[1] + rotationValues[index][1] <= 9
+			);
+		});
+
+		return checkEvery;
+	};
+
 	let rotate = () => {
 		if (!rotated) {
-			let checkEvery = currentPosition.every((arr, index) => {
-				return (
-					arr[1] + rotationValues[index][1] >= 0 &&
-					arr[1] + rotationValues[index][1] <= 9
-				);
-			});
-			if (checkEvery) {
+			if (checkIfNearSide(rotationValues)) {
 				updateRotatedPositions(rotationValues);
 			} else {
 				return;
 			}
 		}
 		if (rotated) {
-			let checkEvery = currentPosition.every((arr, index) => {
-				return (
-					arr[1] + invertedRotationValues[index][1] >= 0 &&
-					arr[1] + rotationValues[index][1] <= 9
-				);
-			});
-			if (checkEvery) {
+			if (checkIfNearSide(invertedRotationValues)) {
 				updateRotatedPositions(invertedRotationValues);
 			} else {
 				return;
