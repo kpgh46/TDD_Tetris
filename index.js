@@ -226,6 +226,7 @@ let displayBoard = (b) => {
 let score = document.getElementById("score");
 let start = document.getElementById("start");
 let points = document.getElementById("points");
+let level = document.getElementById("level");
 
 let generatePeice = () => {
 	let randomBlock = getRandomBlock();
@@ -239,6 +240,7 @@ let playGame = () => {
 	let currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
 	let tetrisBoardScore = 0;
 	let interval = 1000;
+	let currentLevel = 1;
 	let currentPoints = 0;
 	tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
 	displayBoard(tetrisBoard.getBoard());
@@ -250,25 +252,27 @@ let playGame = () => {
 			tetrisPeice = generatePeice();
 			score.textContent = tetrisBoardScore;
 
+			console.log(currentLevel, "level");
+
 			switch (true) {
 				case tetrisBoardScore > 15:
 					interval = 125;
+					currentLevel = 5;
 					break;
 				case tetrisBoardScore > 10:
 					interval = 250;
+					currentLevel = 4;
 					break;
 				case tetrisBoardScore > 5:
 					interval = 500;
+					currentLevel = 3;
 					break;
-				case tetrisBoardScore > 3:
+				case tetrisBoardScore > 1:
 					interval = 750;
+					currentLevel = 2;
 					break;
 			}
-
-			if (tetrisBoardScore > 3) {
-				interval = 750;
-				return;
-			}
+			level.textContent = currentLevel;
 		}
 	};
 
