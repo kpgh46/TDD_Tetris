@@ -110,6 +110,7 @@ let board = (array) => {
 	let currentBoard = array;
 	let currentScore = 0;
 	let numberOfPeices = 0;
+	let game = true;
 
 	let getBoard = () => {
 		return currentBoard;
@@ -119,8 +120,26 @@ let board = (array) => {
 		return currentScore;
 	};
 
+	let getGame = () => {
+		return game;
+	};
+
 	let getNumberOfPeices = () => {
 		return numberOfPeices;
+	};
+
+	let checkIfAtTop = () => {
+		let topRow = currentBoard[1];
+		let checkIfCellInTopRow = topRow.some((nums) => nums === 3);
+		// console.log(checkIfCellInTopRow, "in");
+
+		return checkIfCellInTopRow;
+	};
+
+	let checkIfGameOver = () => {
+		if (checkIfAtTop()) {
+			game = false;
+		}
 	};
 
 	let checkIfAtBottom = (arr) => {
@@ -187,6 +206,7 @@ let board = (array) => {
 				checkIfAboutToHitOtherCells(arrayOfCoords)
 			) {
 				currentBoard[coord[0]][coord[1]] = 3;
+				checkIfGameOver();
 				checkIfRowIsFull();
 				numberOfPeices++;
 				return;
@@ -217,6 +237,7 @@ let board = (array) => {
 		getNumberOfPeices,
 		getScore,
 		getNumberOfPeices,
+		getGame,
 	};
 };
 
@@ -295,24 +316,22 @@ let playGame = () => {
 			level.textContent = currentLevel;
 		}
 	};
+	// Updates board after piece moves.
+	let update = () => {
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		displayBoard(tetrisBoard.getBoard());
+		console.log(tetrisBoard.getGame(), "game");
+	};
 
 	// Automatically moves tetris peice down. Speed dependent on interval.
 	let moveTetrisPeiceDown = () => {
 		tetrisPeice.moveDown();
-		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-		displayBoard(tetrisBoard.getBoard());
-		checkIfPeiceSet();
+		update();
 
 		setTimeout(moveTetrisPeiceDown, interval);
 	};
 
 	setTimeout(moveTetrisPeiceDown, interval);
-
-	// Updates board after piece moves.
-	let update = () => {
-		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-		displayBoard(tetrisBoard.getBoard());
-	};
 
 	// Click events
 	document.addEventListener("keydown", (e) => {
