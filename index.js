@@ -105,11 +105,11 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 	};
 };
 
-////// BOARD FUNCTION //////
+// Board Object
 
 let board = (array) => {
 	let currentBoard = array;
-	let currentScore = 0;
+	let currentLines = 0;
 	let numberOfPeices = 0;
 	let game = true;
 
@@ -117,30 +117,31 @@ let board = (array) => {
 		return currentBoard;
 	};
 
-	let getScore = () => {
-		return currentScore;
+	let getLines = () => {
+		return currentLines;
 	};
 
 	let getGame = () => {
 		return game;
 	};
 
-	let getNumberOfPeices = () => {
-		return numberOfPeices;
-	};
-
-	let checkIfAtTop = () => {
-		let topRow = currentBoard[1];
-		let checkIfCellInTopRow = topRow.some((nums) => nums === 3);
-		// console.log(checkIfCellInTopRow, "in");
-
-		return checkIfCellInTopRow;
-	};
-
 	let checkIfGameOver = () => {
-		if (checkIfAtTop()) {
+		if (checkIfSetCellsAtTop()) {
 			game = false;
 		}
+	};
+
+	let checkIfSetCellsAtTop = () => {
+		let topRow = currentBoard[1];
+		let checkIfAtTop = topRow.some((num) => {
+			return num === 3;
+		});
+
+		return checkIfAtTop;
+	};
+
+	let getNumberOfPeices = () => {
+		return numberOfPeices;
 	};
 
 	let checkIfAtBottom = (arr) => {
@@ -191,7 +192,7 @@ let board = (array) => {
 		currentBoard.forEach((arr, index) => {
 			let checkAll = arr.every((num) => num === 3);
 			if (checkAll) {
-				currentScore++;
+				currentLines++;
 				indexOfFullRow.push(index);
 			}
 		});
@@ -208,13 +209,9 @@ let board = (array) => {
 			) {
 				currentBoard[coord[0]][coord[1]] = 3;
 				checkIfGameOver();
-				if (!game) {
-					return;
-				} else {
-					checkIfRowIsFull();
-					numberOfPeices++;
-					return;
-				}
+				checkIfRowIsFull();
+				numberOfPeices++;
+				return;
 			}
 
 			if (!checkIfAboutToHitOtherCells(arrayOfCoords)) {
@@ -240,7 +237,7 @@ let board = (array) => {
 		getBoard,
 		analyzeCoords,
 		getNumberOfPeices,
-		getScore,
+		getLines,
 		getNumberOfPeices,
 		getGame,
 	};
@@ -267,7 +264,7 @@ let displayBoard = (b) => {
 	});
 };
 
-let score = document.getElementById("score");
+let lines = document.getElementById("lines");
 let start = document.getElementById("start");
 let points = document.getElementById("points");
 let level = document.getElementById("level");
@@ -282,86 +279,112 @@ let playGame = () => {
 	let tetrisPeice = generatePeice();
 	let tetrisBoard = board(generateTwoDArray(19));
 	let currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
-	let tetrisBoardScore = 0;
+	let currentLines = 0;
 	let interval = 1000;
 	let currentLevel = 1;
 	let currentPoints = 0;
 	tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
 	displayBoard(tetrisBoard.getBoard());
 
+	let resetGame = () => {
+		currentPoints = 0;
+		currentLevel = 0;
+		currentLevel = 1;
+		lines.textContent = 0;
+		points.textContent = 0;
+		level.textContent = 1;
+	};
+
+	let gameOver = () => {
+		grid.innerHTML = `<div id = "over">
+							<div>GAME OVER!</div>
+							<br>
+							<div>Lines: ${currentLines}</div>
+							<div>Points: ${currentPoints}</div>
+							</div>`;
+
+		resetGame();
+	};
+
 	let checkIfPeiceSet = () => {
 		if (tetrisBoard.getNumberOfPeices() > currentNumberOfPeices) {
-			tetrisBoardScore = tetrisBoard.getScore();
+			currentLines = tetrisBoard.getLines();
 			currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
 			tetrisPeice = generatePeice();
-			score.textContent = tetrisBoardScore;
-
-			console.log(currentLevel, "level");
 
 			switch (true) {
-				case tetrisBoardScore > 15:
+				case currentLines > 15:
 					interval = 125;
 					currentLevel = 5;
 					break;
-				case tetrisBoardScore > 10:
+				case currentLines > 10:
 					interval = 250;
 					currentLevel = 4;
 					break;
-				case tetrisBoardScore > 5:
+				case currentLines > 5:
 					interval = 500;
 					currentLevel = 3;
 					break;
-				case tetrisBoardScore > 1:
+				case currentLines > 1:
 					interval = 750;
 					currentLevel = 2;
 					break;
 			}
 			level.textContent = currentLevel;
+			lines.textContent = currentLines;
 		}
-	};
-	// Updates board after piece moves.
-	let update = () => {
-		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-		displayBoard(tetrisBoard.getBoard());
-		console.log(tetrisBoard.getGame(), "game");
 	};
 
 	let moveTetrisPeiceDown = () => {
 		tetrisPeice.moveDown();
-		update();
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		displayBoard(tetrisBoard.getBoard());
+		if (!tetrisBoard.getGame()) {
+			clearInterval(interval);
+			gameOver();
+			return;
+		}
+		checkIfPeiceSet();
 
 		setTimeout(moveTetrisPeiceDown, interval);
 	};
 
 	setTimeout(moveTetrisPeiceDown, interval);
 
-	///// CLICK EVENTS //////
+	let update = () => {
+		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+		displayBoard(tetrisBoard.getBoard());
+	};
 
+	// Click Events
 	document.addEventListener("keydown", (e) => {
-		let event = e.key;
-		if (event === "ArrowDown") {
-			tetrisPeice.moveDown();
-			currentPoints += 100;
-			points.textContent = currentPoints;
-		}
+		if (!tetrisBoard.getGame()) {
+			e.preventDefault();
+		} else {
+			let event = e.key;
+			if (event === "ArrowDown") {
+				tetrisPeice.moveDown();
+				currentPoints += 100;
+				points.textContent = currentPoints;
+			}
 
-		if (event === "ArrowUp") {
-			tetrisPeice.rotate();
-		}
+			if (event === "ArrowUp") {
+				tetrisPeice.rotate();
+			}
 
-		if (event === "ArrowRight") {
-			tetrisPeice.moveRight();
+			if (event === "ArrowRight") {
+				tetrisPeice.moveRight();
+			}
+			if (event === "ArrowLeft") {
+				tetrisPeice.moveLeft();
+			}
+			update();
+			checkIfPeiceSet();
 		}
-		if (event === "ArrowLeft") {
-			tetrisPeice.moveLeft();
-		}
-		update();
-		checkIfPeiceSet();
 	});
 };
 
+// Start Button
 start.addEventListener("click", playGame);
-
-// playGame();
 
 export { createTetrisPiece, board };
