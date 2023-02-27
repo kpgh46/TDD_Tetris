@@ -1,6 +1,6 @@
 import { invertNestedArr, getRandomBlock, generateTwoDArray } from "./utils.js";
 
-// CREATE TETRIS PEICE
+// Tetris Peice Object
 const createTetrisPiece = (startingPosition, rotationValues) => {
 	let currentPosition = startingPosition;
 	let rotated = false;
@@ -34,6 +34,7 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 		return checkEvery;
 	};
 
+	// if not near side of grid, rotate tetris peice
 	let rotate = () => {
 		if (!rotated) {
 			if (checkIfNearSide(rotationValues)) {
@@ -101,7 +102,6 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 		moveRight,
 		moveDown,
 		getRotate,
-		rotated,
 	};
 };
 
@@ -125,6 +125,7 @@ let board = (array) => {
 		return game;
 	};
 
+	// if cells at top of grid, then update game to false
 	let checkIfGameOver = () => {
 		if (checkIfSetCellsAtTop()) {
 			game = false;
@@ -152,6 +153,7 @@ let board = (array) => {
 		return checkIfAtBottom;
 	};
 
+	// set tetris peice on grid if close to another peice
 	let checkIfAboutToHitOtherCells = (arr) => {
 		let checkIfAboutToHitOtherCells = arr.some((coord) => {
 			let coordPlusTenIndex = coord[0] + 1;
@@ -174,6 +176,7 @@ let board = (array) => {
 		});
 	};
 
+	// insert rows in order to move all set peices down
 	let moveRowsDownward = (arrOfIndexes) => {
 		arrOfIndexes.forEach((arr) => {
 			let blankArr = [[1], [1], [1], [1], [1], [1], [1], [1], [1], [1]];
@@ -200,6 +203,7 @@ let board = (array) => {
 		moveRowsDownward(indexOfFullRow);
 	};
 
+	// determines current status of tetris peices
 	let analyzeCoords = (arrayOfCoords) => {
 		clearActiveCells();
 		arrayOfCoords.forEach((coord) => {
@@ -312,6 +316,7 @@ let playGame = () => {
 			currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
 			tetrisPeice = generatePeice();
 
+			// speed of interval determined by number of lines completed
 			switch (true) {
 				case currentLines > 15:
 					interval = 125;
@@ -358,6 +363,7 @@ let playGame = () => {
 
 	// Click Events
 	document.addEventListener("keydown", (e) => {
+		// disable keyboard events if game over
 		if (!tetrisBoard.getGame()) {
 			e.preventDefault();
 		} else {

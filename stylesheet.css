@@ -37,7 +37,7 @@
 }
 
 .set{
-    background-color: red;
+    background-color: green;
 }
 
 #start{
@@ -54,4 +54,14 @@
     font-family: 'Tetris', sans-serif;
     font-size: 25px;
     margin-left: 15px;
+}
+
+#over{
+    display: flex;
+    flex-direction: column;
+    margin-left: 130px;;
+    justify-content: center;
+    align-items: center;
+    color:red;
+    
 }
