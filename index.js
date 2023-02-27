@@ -1,6 +1,6 @@
 import { invertNestedArr, getRandomBlock, generateTwoDArray } from "./utils.js";
 
-// Tetris Peice object
+// CREATE TETRIS PEICE
 const createTetrisPiece = (startingPosition, rotationValues) => {
 	let currentPosition = startingPosition;
 	let rotated = false;
@@ -105,7 +105,8 @@ const createTetrisPiece = (startingPosition, rotationValues) => {
 	};
 };
 
-// Board object
+////// BOARD FUNCTION //////
+
 let board = (array) => {
 	let currentBoard = array;
 	let currentScore = 0;
@@ -241,7 +242,7 @@ let board = (array) => {
 	};
 };
 
-// Display board
+////// DISPLAY //////
 let displayBoard = (b) => {
 	let grid = document.querySelector("#grid");
 	grid.innerHTML = "";
@@ -267,13 +268,11 @@ let start = document.getElementById("start");
 let points = document.getElementById("points");
 let level = document.getElementById("level");
 
-// Generates a random tetris peice
 let generatePeice = () => {
 	let randomBlock = getRandomBlock();
 	return createTetrisPiece(randomBlock[0], randomBlock[1]);
 };
 
-// Called when start is pressed
 let playGame = () => {
 	// Game Setup
 	let tetrisPeice = generatePeice();
@@ -283,17 +282,17 @@ let playGame = () => {
 	let interval = 1000;
 	let currentLevel = 1;
 	let currentPoints = 0;
-
 	tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
 	displayBoard(tetrisBoard.getBoard());
 
-	// Checks if tetris peice is placed onto board.  Called on click events.
 	let checkIfPeiceSet = () => {
 		if (tetrisBoard.getNumberOfPeices() > currentNumberOfPeices) {
 			tetrisBoardScore = tetrisBoard.getScore();
 			currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
 			tetrisPeice = generatePeice();
 			score.textContent = tetrisBoardScore;
+
+			console.log(currentLevel, "level");
 
 			switch (true) {
 				case tetrisBoardScore > 15:
@@ -323,7 +322,6 @@ let playGame = () => {
 		console.log(tetrisBoard.getGame(), "game");
 	};
 
-	// Automatically moves tetris peice down. Speed dependent on interval.
 	let moveTetrisPeiceDown = () => {
 		tetrisPeice.moveDown();
 		update();
@@ -333,7 +331,8 @@ let playGame = () => {
 
 	setTimeout(moveTetrisPeiceDown, interval);
 
-	// Click events
+	///// CLICK EVENTS //////
+
 	document.addEventListener("keydown", (e) => {
 		let event = e.key;
 		if (event === "ArrowDown") {
@@ -358,5 +357,7 @@ let playGame = () => {
 };
 
 start.addEventListener("click", playGame);
+
+// playGame();
 
 export { createTetrisPiece, board };
