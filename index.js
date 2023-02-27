@@ -208,9 +208,13 @@ let board = (array) => {
 			) {
 				currentBoard[coord[0]][coord[1]] = 3;
 				checkIfGameOver();
-				checkIfRowIsFull();
-				numberOfPeices++;
-				return;
+				if (!game) {
+					return;
+				} else {
+					checkIfRowIsFull();
+					numberOfPeices++;
+					return;
+				}
 			}
 
 			if (!checkIfAboutToHitOtherCells(arrayOfCoords)) {
