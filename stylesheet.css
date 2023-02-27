@@ -8,7 +8,7 @@
 
 #header{
     font-family: 'Tetris', sans-serif;
-    font-size: 55px;
+    font-size: 50px;
     color: blue;
     margin: 5px;
 }
@@ -16,7 +16,7 @@
 #grid{
     display: flex;
     flex-wrap: wrap;
-    border: .5px solid blue;
+    border: 1px solid black;
     border-radius: 5px;
     width: 360px;
     height:721px;
@@ -52,6 +52,6 @@
 
 #tracking{
     font-family: 'Tetris', sans-serif;
-    font-size: 30px;
+    font-size: 25px;
     margin-left: 15px;
 }
