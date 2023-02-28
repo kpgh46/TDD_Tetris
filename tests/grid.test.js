@@ -212,7 +212,7 @@ describe("logic for gameboard", () => {
 			[19, 9],
 		]);
 
-		expect(tetrisBoard.getScore()).toEqual(1);
+		expect(tetrisBoard.getLines()).toEqual(1);
 	});
 
 	test("if row is filled, push all rows downward", () => {
@@ -232,21 +232,6 @@ describe("logic for gameboard", () => {
 
 		expect(tetrisBoard.getBoard()[19][0]).toEqual([1]);
 		expect(tetrisBoard.getBoard().length).toEqual(20);
-		expect(tetrisBoard.getScore()).toEqual(1);
+		expect(tetrisBoard.getLines()).toEqual(1);
 	});
-
-	// test("multiple coordinates placed onto board", () => {
-	// 	tetrisPeice.moveDown();
-	// 	tetrisPeice.moveDown();
-	// 	tetrisPeice.moveDown();
-	// 	tetrisPeice.moveDown();
-	// 	tetrisPeice.moveDown();
-	// 	tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-
-	// 	secondTetrisPeice.moveDown();
-	// 	tetrisBoard.analyzeCoords(secondTetrisPeice.getBlocks());
-	// 	console.log(tetrisBoard.getBoard());
-	// 	expect(tetrisBoard.getBoard()[4][3]).toEqual(2);
-	// 	expect(tetrisBoard.getBoard()[2][3]).toEqual(2);
-	// });
 });
