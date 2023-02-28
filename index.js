@@ -247,7 +247,7 @@ let board = (array) => {
 	};
 };
 
-////// DISPLAY //////
+// Display
 let displayBoard = (b) => {
 	let grid = document.querySelector("#grid");
 	grid.innerHTML = "";
@@ -287,8 +287,9 @@ let playGame = () => {
 	let interval = 1000;
 	let currentLevel = 1;
 	let currentPoints = 0;
-	tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
-	displayBoard(tetrisBoard.getBoard());
+
+	// tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
+	// displayBoard(tetrisBoard.getBoard());
 
 	let resetGame = () => {
 		currentPoints = 0;
@@ -311,6 +312,7 @@ let playGame = () => {
 	};
 
 	let checkIfPeiceSet = () => {
+		// if the number of peices of the board exceeds current number, then create new peice
 		if (tetrisBoard.getNumberOfPeices() > currentNumberOfPeices) {
 			currentLines = tetrisBoard.getLines();
 			currentNumberOfPeices = tetrisBoard.getNumberOfPeices();
@@ -340,6 +342,7 @@ let playGame = () => {
 		}
 	};
 
+	// auto move down and display via setTimeout
 	let moveTetrisPeiceDown = () => {
 		tetrisPeice.moveDown();
 		tetrisBoard.analyzeCoords(tetrisPeice.getBlocks());
